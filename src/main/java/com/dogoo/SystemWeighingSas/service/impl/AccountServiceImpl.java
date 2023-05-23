@@ -6,6 +6,7 @@ import com.dogoo.SystemWeighingSas.config.Constants;
 import com.dogoo.SystemWeighingSas.dao.IAccountDao;
 import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.entity.Customer;
+import com.dogoo.SystemWeighingSas.enumEntity.RoleEnum;
 import com.dogoo.SystemWeighingSas.enumEntity.StatusEnum;
 import com.dogoo.SystemWeighingSas.model.AccountMapperModel;
 import com.dogoo.SystemWeighingSas.model.UserTokenModel;
@@ -58,7 +59,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             logger.info("account found in the database: {}", screenName);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(account.getRole()));
+        authorities.add(new SimpleGrantedAuthority(account.getRole().name()));
 
         return new org.springframework.security.core.userdetails.User(account.getEmail(), account.getPassword(), authorities);
     }
@@ -135,7 +136,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setName(customer.getCustomerName());
         account.setCreateDate(new Timestamp(System.currentTimeMillis()));
         account.setScreenName(pwdGenerator.getScreeName(customer.getCustomerName(), null));
-        account.setRole("admin");
+        account.setRole(RoleEnum.adminUser);
         account.setPhoneNumber(customer.getPhoneNumber());
         account.setStatus(StatusEnum.active);
         account.setEmail(customer.getEmail());

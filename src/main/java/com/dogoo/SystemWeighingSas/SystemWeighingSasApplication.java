@@ -1,5 +1,6 @@
 package com.dogoo.SystemWeighingSas;
 
+import com.dogoo.SystemWeighingSas.enumEntity.RoleEnum;
 import com.dogoo.SystemWeighingSas.model.AccountMapperModel;
 import com.dogoo.SystemWeighingSas.service.AccountService;
 import org.springframework.boot.CommandLineRunner;
@@ -28,7 +29,7 @@ public class SystemWeighingSasApplication implements CommandLineRunner {
             account.setName("admin dogoo");
             account.setCreateDate(new Timestamp(System.currentTimeMillis()));
             account.setScreenName("admin_dogoo");
-            account.setRole("admin");
+            account.setRole(RoleEnum.admin.name());
             account.setPhoneNumber("");
             account.setStatus("active");
             account.setEmail("trungnb@dogoo.com.vn");

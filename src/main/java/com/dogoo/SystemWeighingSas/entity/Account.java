@@ -1,5 +1,6 @@
 package com.dogoo.SystemWeighingSas.entity;
 
+import com.dogoo.SystemWeighingSas.enumEntity.RoleEnum;
 import com.dogoo.SystemWeighingSas.enumEntity.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,7 +35,8 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private StatusEnum status = StatusEnum.active;
 
-    private String role = "";
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role = RoleEnum.user;
     private Boolean roleCreate = Boolean.FALSE;
     private Boolean roleView = Boolean.FALSE;
     private Boolean roleAll = Boolean.TRUE;
