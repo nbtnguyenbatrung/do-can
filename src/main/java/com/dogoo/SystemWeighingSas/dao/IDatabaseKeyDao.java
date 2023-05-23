@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface IDatabaseKeyDao extends JpaRepository<DatabaseKey, Integer> {
+public interface IDatabaseKeyDao extends JpaRepository<DatabaseKey, Long> {
 
     @Query("select dk from DG_DatabaseKey dk Where dk.key=:key ")
     Page<DatabaseKey> findDatabaseKeyByKey(@Param("key") String key, Pageable pageable);

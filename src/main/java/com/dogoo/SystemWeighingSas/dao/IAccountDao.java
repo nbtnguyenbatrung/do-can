@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface IAccountDao extends JpaRepository<Account,Integer> {
+public interface IAccountDao extends JpaRepository<Account,Long> {
     Account findAccountByScreenName(String screenName);
     Account findAccountByEmail(String email);
     Account findAccountByKey(String key);
@@ -22,5 +22,7 @@ public interface IAccountDao extends JpaRepository<Account,Integer> {
 
     @Query("select ac from DG_account ac Where ac.key=:key AND role='adminUser' ")
     Account getCustomer(@Param("key") String key);
+
+    long countByKey(String key);
 
 }

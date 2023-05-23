@@ -12,35 +12,23 @@ import java.sql.Timestamp;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Entity(name = "DG_account")
+@Entity(name = "DG_WeighingStation")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class WeighingStation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountId;
+    private Long id;
 
-    private String name = "";
-
-    private String phoneNumber = "";
-
-    private String screenName = "";
-
-    private String password = "";
-
-    private String email = "";
+    private String weighingStationName = "";
+    private String weighingStationCode = "";
+    private String address = "";
+    private long customerId;
 
     @Enumerated(EnumType.STRING)
     private StatusEnum status = StatusEnum.active;
-
-    private String role = "";
-    private Boolean roleCreate = Boolean.FALSE;
-    private Boolean roleView = Boolean.FALSE;
-
-    private String key = "";
-
-    private Boolean changePassword = Boolean.FALSE;
 
     private Timestamp createDate = new Timestamp(System.currentTimeMillis());
 }
