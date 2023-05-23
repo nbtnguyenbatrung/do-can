@@ -8,52 +8,49 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Slf4j
-public class MailUtilImpl implements MailUtil{
+public class MailUtilImpl implements MailUtil {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
-    @Value("${spring.mail.username}") private String sender;
+    @Value("${spring.mail.username}")
+    private String sender;
+    @Value("${dogoo.link}")
+    private String link;
 
     @Override
-    public String sendSimpleMail(String email, String msgBody, String subject) throws MessagingException {
-
-//        try {
-
-//            SimpleMailMessage mailMessage
-//                    = new SimpleMailMessage();
-//
-//            // Setting up necessary details
-//            mailMessage.setFrom(sender);
-//            mailMessage.setTo(email);
-//            mailMessage.setText(msgBody);
-//            mailMessage.setSubject(subject);
-//
-//            // Sending the mail
-//            javaMailSender.send(mailMessage);
+    public void sendSimpleMail(String email,
+                               String subject,
+                               Map<String, Object> model) throws MessagingException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 
-        helper.setFrom(sender);
+        helper.setFrom("Dogoo Can <" + sender + ">");
         helper.setTo(email);
         helper.setSubject(subject);
-        helper.setText(msgBody);
 
-            log.info("Mail Sent Successfully...");
-            return "Mail Sent Successfully...";
+        model.put("link", link);
+        Context context = new Context();
+        context.setVariables(model);
+        String html = templateEngine.process("index", context);
+        helper.setText(html, true);
 
-//        }
-//        catch (Exception e) {
-//            log.error("Error while Sending Mail");
-//            return "Error while Sending Mail";
-//        }
+//        message.setContent(msgBody, "text/html; charset=utf-8");
+        /*helper.setText(msgBody);*/
+        javaMailSender.send(helper.getMimeMessage());
+        log.info("Mail Sent Successfully...");
     }
 }

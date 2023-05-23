@@ -1,0 +1,162 @@
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600&display=swap" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div style="color: #222222; position: absolute;left: 50%; transform: translateX(-50%); font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif">
+    <div style="text-align: center;margin: 40px 0">
+        <img src="https://office-mobile-dev.dogoo.vn/static/media/logoDogoo.6757db6fb96f9f658b5c.png"
+             style="width: 120px"/>
+    </div>
+    <div style="margin: 0 auto; width: 500px; border: 1px solid #dddddd; padding: 20px; background: #fff; border-radius: .25rem; position: absolute; left: 50%; transform: translateX(-50%)">
+        <p>Xin chào <strong th:text="${name}"></strong></p>
+        <p>Chúng tôi muốn gửi tới bạn lời cảm ơn chân thành vì đã tin tưởng đăng ký giải pháp
+            quản lý trạm cân từ xa cho doanh nghiệp <strong>Dogoo Can.</strong></p>
+        <p>Quý khách có thể bắt đầu truy cập và sử dụng Dogoo can tại <a th:href="@{${link}}" th:text="${link}"> </a>
+            với thông tin sau:</p>
+        <table style="border: none;border-collapse: collapse;">
+            <tbody style="border: none;border-collapse: collapse;">
+            <tr style="border: none;border-collapse: collapse;">
+                <td style="border: none;border-collapse: collapse; padding: 5px">Tên đăng nhập:
+                </td>
+                <td style="border: none;border-collapse: collapse; padding: 5px"><strong th:text="${screenName}"></strong></td>
+            </tr>
+            <tr style="border: none;border-collapse: collapse;">
+                <td style="border: none;border-collapse: collapse; padding: 5px"> Mật khẩu:
+                </td>
+                <td style="border: none;border-collapse: collapse; padding: 5px"><strong th:text="${password}"></strong></td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Vui lòng đổi mật khẩu sau khi lần đăng nhập đầu tiên để bảo mật tài khoản.</p>
+        <p>Mọi thắc mắc, xin vui lòng liên hệ qua số điện thoại 0344 733 033 hoặc gửi email về địa chỉ hòm thư:
+            <a href="mailto:support@dogoo.vn">support@dogoo.vn</a> </p>
+        <p>Trân trọng cảm ơn!</p>
+
+        <table style="font-family:arial,helvetica,sans-serif;" role="presentation"
+               cellpadding="0" cellspacing="0" width="100%" border="0">
+            <tbody>
+            <tr>
+                <td style="overflow-wrap:break-word;word-break:break-word;padding:14px 10px;font-family:arial,helvetica,sans-serif;"
+                    align="left">
+
+                    <div align="center">
+                        <div style="display: table; max-width:75px;">
+                            <table align="left" border="0" cellspacing="0" cellpadding="0"
+                                   width="32" height="32"
+                                   style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 6px">
+                                <tbody>
+                                <tr style="vertical-align: top">
+                                    <td align="left" valign="middle"
+                                        style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
+                                        <a href="https://www.facebook.com/dogoojsc" title="Facebook"
+                                           target="_blank">
+                                            <img src="https://cloud.dogoo.vn/index.php/s/j5AKRbKz6DxiEFi/preview"
+                                                 alt="Facebook"
+                                                 title="Facebook" width="32"
+                                                 style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table align="left" border="0" cellspacing="0" cellpadding="0"
+                                   width="32" height="32"
+                                   style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 0px">
+                                <tbody>
+                                <tr style="vertical-align: top">
+                                    <td align="left" valign="middle"
+                                        style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
+                                        <a href="https://www.youtube.com/@dogoojsc/playlists"
+                                           title="Youtube" target="_blank">
+                                            <img src="https://cloud.dogoo.vn/index.php/s/6Qa3PMTPMM5LqsK/preview"
+                                                 alt="Youtube"
+                                                 title="Youtube" width="32"
+                                                 style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0"
+                               cellspacing="0" width="100%" border="0">
+                            <tbody>
+                            <tr>
+                                <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;"
+                                    align="left">
+
+                                    <div class="menu" style="text-align:center">
+
+                                        <a href="https://dogoo.vn" target="_blank"
+                                           style="padding:0px 15px;display:inline-block;color:#0068A5;font-family:Bitter;font-size:16px;text-decoration:none">
+                                            Dogoo Tech Solution
+                                        </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0"
+                               cellspacing="0" width="100%" border="0">
+                            <tbody>
+                            <tr>
+                                <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 28px;font-family:arial,helvetica,sans-serif;"
+                                    align="left">
+
+                                    <table height="0px" align="center" border="0" cellpadding="0" cellspacing="0"
+                                           width="100%"
+                                           style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;border-top: 2px solid #ced4d9;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
+                                        <tbody>
+                                        <tr style="vertical-align: top">
+                                            <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;font-size: 0px;line-height: 0px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
+                                                <span>&nbsp;</span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0"
+                               cellspacing="0" width="100%" border="0">
+                            <tbody>
+                            <tr>
+                                <td style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 30px;font-family:arial,helvetica,sans-serif;"
+                                    align="left">
+
+                                    <div>
+                                        <div style="text-align: center;font-size: 12px;font-family: Lucida Grande,Verdana,Arial,Helvetica,sans-serif">
+                                            <b style="display: block;">CÔNG TY CỔ PHẦN CÔNG NGHỆ DOGOO</b>
+                                            <b style="display: block;">Chi nhánh Hà Nội</b>
+                                            <p>159 - Lê Lợi - Phường Hà Cầu - Quận Hà Đông - TP Hà Nội</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+
+</html>

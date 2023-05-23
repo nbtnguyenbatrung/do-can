@@ -1,10 +1,12 @@
 package com.dogoo.SystemWeighingSas.service;
 
 import com.dogoo.SystemWeighingSas.entity.Account;
+import com.dogoo.SystemWeighingSas.entity.Customer;
 import com.dogoo.SystemWeighingSas.model.AccountMapperModel;
 import com.dogoo.SystemWeighingSas.model.UserTokenModel;
 import com.dogoo.SystemWeighingSas.unitity.response.ResultResponse;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 public interface AccountService {
@@ -21,4 +23,6 @@ public interface AccountService {
     void changePasswordAccount(AccountMapperModel account) throws Exception;
 
     void activeAccount(AccountMapperModel account) throws Exception;
+
+    void createAccountCustomer(Customer customer) throws MessagingException;
 }

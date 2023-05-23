@@ -24,5 +24,6 @@ public interface IAccountDao extends JpaRepository<Account,Long> {
     Account getCustomer(@Param("key") String key);
 
     long countByKey(String key);
+    boolean existsByScreenName(String screenName);
 
 }
