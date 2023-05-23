@@ -33,6 +33,7 @@ public class AccountMapperModel {
     private String role;
     private Boolean roleCreate;
     private Boolean roleView;
+    private Boolean roleAll;
     private String key;
 
     private Timestamp createDate;

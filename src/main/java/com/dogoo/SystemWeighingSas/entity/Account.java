@@ -37,6 +37,7 @@ public class Account {
     private String role = "";
     private Boolean roleCreate = Boolean.FALSE;
     private Boolean roleView = Boolean.FALSE;
+    private Boolean roleAll = Boolean.TRUE;
 
     private String key = "";
 
