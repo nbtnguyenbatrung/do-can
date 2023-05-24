@@ -33,7 +33,7 @@ public class CustomerController {
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS, to);
             }
 
-            httpServletResponse.setStatus(404);
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
@@ -51,7 +51,7 @@ public class CustomerController {
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS, to);
             }
 
-            httpServletResponse.setStatus(404);
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
@@ -68,7 +68,7 @@ public class CustomerController {
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS);
             }
 
-            httpServletResponse.setStatus(404);
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
@@ -85,7 +85,7 @@ public class CustomerController {
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS, to);
             }
 
-            httpServletResponse.setStatus(404);
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());

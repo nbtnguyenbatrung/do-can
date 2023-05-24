@@ -9,8 +9,10 @@ import com.dogoo.SystemWeighingSas.entity.Customer;
 import com.dogoo.SystemWeighingSas.enumEntity.RoleEnum;
 import com.dogoo.SystemWeighingSas.enumEntity.StatusEnum;
 import com.dogoo.SystemWeighingSas.model.AccountMapperModel;
+import com.dogoo.SystemWeighingSas.model.RoleMapperModel;
 import com.dogoo.SystemWeighingSas.model.UserTokenModel;
 import com.dogoo.SystemWeighingSas.service.AccountService;
+import com.dogoo.SystemWeighingSas.service.RoleService;
 import com.dogoo.SystemWeighingSas.unitity.response.ResultResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,15 +40,19 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final PwdGenerator pwdGenerator;
     private final MailUtil mailUtil;
-    private final String SUBJECT = "[Dogoo Can] - THƯ THÔNG TIN TÀI KHOẢN TRÊN DOGOO CAN";
+    private final RoleService roleService;
+    private static final String SUBJECT = "[Dogoo Can] - THƯ THÔNG TIN TÀI KHOẢN TRÊN DOGOO CAN";
 
     public AccountServiceImpl(IAccountDao iAccountDao,
                               PasswordEncoder passwordEncoder,
-                              PwdGenerator pwdGenerator, MailUtil mailUtil) {
+                              PwdGenerator pwdGenerator,
+                              MailUtil mailUtil,
+                              RoleService roleService) {
         this.iAccountDao = iAccountDao;
         this.passwordEncoder = passwordEncoder;
         this.pwdGenerator = pwdGenerator;
         this.mailUtil = mailUtil;
+        this.roleService = roleService;
     }
 
     @Override
@@ -61,16 +67,18 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(account.getRole().name()));
 
-        return new org.springframework.security.core.userdetails.User(account.getEmail(), account.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(account.getScreenName(), account.getPassword(), authorities);
     }
 
     @Override
-    public void createAccount(AccountMapperModel accountMapperModel) {
+    public void createAccount(UserTokenModel tokenModel , AccountMapperModel accountMapperModel) {
         Account account = Constants.SERIALIZER.convertValue(accountMapperModel, Account.class);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setChangePassword(Boolean.FALSE);
         account.setCreateDate(new Timestamp(System.currentTimeMillis()));
-        iAccountDao.save(account);
+        account = iAccountDao.save(account);
+
+        addListRole(account.getAccountId(), accountMapperModel.getRoleList());
     }
 
     @Override
@@ -89,8 +97,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public Account getAccountByAccountId(Integer accountId) {
-        return iAccountDao.fetchAccountByAccountId(accountId);
+    public AccountMapperModel getAccountByAccountId(long accountId) {
+        Account account = iAccountDao.fetchAccountByAccountId(accountId);
+        AccountMapperModel model = Constants.SERIALIZER.convertValue(account, AccountMapperModel.class);
+        model.setRoleList(roleService.getListRole(accountId));
+
+        return model;
     }
 
     @Override
@@ -100,10 +112,11 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
         Pageable pageable = PageRequest.of(page, 30, sort);
         Page<Account> accounts = iAccountDao.findAll(pageable);
+        long total = iAccountDao.count();
         if (!model.getKey().equals("")){
             accounts = iAccountDao.findAllCustomer(model.getKey(), pageable);
+            total = iAccountDao.countByKey(model.getKey());
         }
-        Long total = accounts.getTotalElements();
         ResultResponse<Account> resultResponse = new ResultResponse<>();
         resultResponse.setData(accounts.getContent());
         resultResponse.setLimit(limit);
@@ -119,13 +132,17 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public void changePasswordAccount(AccountMapperModel account) throws Exception {
-
+    public void changePasswordAccount(long accountId, AccountMapperModel model) {
+        Account account = iAccountDao.findByAccountId(accountId);
+        account.setPassword(passwordEncoder.encode(model.getNewPassword()));
+        iAccountDao.save(account);
     }
 
     @Override
-    public void activeAccount(AccountMapperModel account) throws Exception {
-
+    public void activeAccount(long accountId, AccountMapperModel model) {
+        Account account = iAccountDao.findByAccountId(accountId);
+        account.setStatus(StatusEnum.valueOf(model.getStatus()));
+        iAccountDao.save(account);
     }
 
     @Override
@@ -151,5 +168,39 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         mailUtil.sendSimpleMail(customer.getEmail(),
                 SUBJECT , model );
 
+    }
+
+    @Override
+    public void updateAccount(long accountId, AccountMapperModel model) {
+        Account account = iAccountDao.fetchAccountByAccountId(accountId);
+        account.setName(model.getName());
+        account.setScreenName(model.getScreenName());
+        account.setPassword(passwordEncoder.encode(model.getPassword()));
+        account.setStatus(StatusEnum.valueOf(model.getStatus()));
+        iAccountDao.save(account);
+        updateListRole(accountId, model.getRoleList() );
+    }
+
+    @Override
+    public void changeRole(long accountId, AccountMapperModel model) {
+        updateListRole(accountId, model.getRoleList() );
+    }
+
+    private void addListRole (long accountId, List<RoleMapperModel> list){
+        list.forEach(roleMapperModel -> {
+            roleMapperModel.setAccountId(accountId);
+            roleService.addRole(roleMapperModel);
+        });
+    }
+
+    private void updateListRole (long accountId, List<RoleMapperModel> list){
+        list.forEach(roleMapperModel -> {
+            if (roleMapperModel.getId() == 0){
+                roleMapperModel.setAccountId(accountId);
+                roleService.addRole(roleMapperModel);
+            }else{
+                roleService.updateRole(roleMapperModel);
+            }
+        });
     }
 }

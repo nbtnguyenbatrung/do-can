@@ -13,7 +13,7 @@ public interface IAccountDao extends JpaRepository<Account,Long> {
     Account findAccountByKey(String key);
 
     @Query("select ac from DG_account ac Where ac.accountId=:accountId ")
-    Account fetchAccountByAccountId( @Param("accountId") Integer accountId);
+    Account fetchAccountByAccountId( @Param("accountId") long accountId);
 
     Page<Account> findAll(Pageable pageable);
 
@@ -25,5 +25,8 @@ public interface IAccountDao extends JpaRepository<Account,Long> {
 
     long countByKey(String key);
     boolean existsByScreenName(String screenName);
+
+    Account findByAccountId(long accountId);
+
 
 }

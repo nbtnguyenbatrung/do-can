@@ -10,19 +10,23 @@ import javax.mail.MessagingException;
 import java.util.List;
 
 public interface AccountService {
-    void createAccount(AccountMapperModel account);
+    void createAccount(UserTokenModel tokenModel, AccountMapperModel account);
 
     Account getAccountByScreenName(String screenNamme);
     Account getAccountByMail(String email);
     Account getAccountByKey(String key);
-    Account getAccountByAccountId(Integer accountId);
+    AccountMapperModel getAccountByAccountId(long accountId);
 
     ResultResponse<Account> getAccounts(UserTokenModel model, Integer limit, Integer page);
     List<Account> getAccounts();
 
-    void changePasswordAccount(AccountMapperModel account) throws Exception;
+    void changePasswordAccount(long accountId, AccountMapperModel model);
 
-    void activeAccount(AccountMapperModel account) throws Exception;
+    void activeAccount(long accountId, AccountMapperModel account);
 
     void createAccountCustomer(Customer customer) throws MessagingException;
+
+    void updateAccount(long accountId, AccountMapperModel model);
+
+    void changeRole(long accountId, AccountMapperModel model);
 }

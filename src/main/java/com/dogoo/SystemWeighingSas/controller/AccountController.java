@@ -10,6 +10,7 @@ import com.dogoo.SystemWeighingSas.validator.AccountValidator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/o/dogoo/account")
@@ -43,17 +44,40 @@ public class AccountController {
 
 
     @PostMapping("/create")
-    public Response createAccount( @RequestBody AccountMapperModel accountDto,
-                                   HttpServletRequest request) {
+    public Response createAccount(@RequestBody AccountMapperModel accountDto,
+                                  HttpServletRequest request,
+                                  HttpServletResponse httpServletResponse) {
         try {
             Response response = validator.validatorAdd(getUserToken(request), accountDto);
-            if (response == null){
-                accountService.createAccount(accountDto);
+            if (response == null) {
+                accountService.createAccount(getUserToken(request), accountDto);
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS);
             }
 
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
+            httpServletResponse.setStatus(400);
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public Response updateAccount(@PathVariable("id") long id,
+                                  @RequestBody AccountMapperModel accountDto,
+                                  HttpServletRequest request,
+                                  HttpServletResponse httpServletResponse) {
+        try {
+            Response response = validator.validatorUpdate(id, getUserToken(request), accountDto);
+            if (response == null) {
+                accountService.updateAccount(id, accountDto);
+                return ResponseFactory.getSuccessResponse(Response.SUCCESS);
+            }
+
+            httpServletResponse.setStatus(400);
+            return response;
+        } catch (Exception exception) {
+            httpServletResponse.setStatus(400);
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }
@@ -66,12 +90,22 @@ public class AccountController {
     }
      */
 
-    @PostMapping("/change-password")
-    public Response changePassword( @RequestBody AccountMapperModel accountDto) {
+    @PostMapping("/change-password/{id}")
+    public Response changePassword(@PathVariable("id") long id,
+                                   @RequestBody AccountMapperModel accountDto,
+                                   HttpServletResponse httpServletResponse) {
         try {
-            accountService.changePasswordAccount(accountDto);
-            return ResponseFactory.getSuccessResponse(Response.SUCCESS);
+            Response response = validator.validatorChangePassword(id, accountDto);
+
+            if (response == null){
+                accountService.changePasswordAccount(id, accountDto);
+                return ResponseFactory.getSuccessResponse(Response.SUCCESS);
+            }
+
+            httpServletResponse.setStatus(400);
+            return response;
         } catch (Exception exception) {
+            httpServletResponse.setStatus(400);
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }
@@ -83,27 +117,40 @@ public class AccountController {
         "status":1
     }
     */
-    @PostMapping("/change-status")
-    public Response changeStatus( @RequestBody AccountMapperModel accountDto) {
+    @PostMapping("/change-status/{id}")
+    public Response changeStatus(@PathVariable("id") long id,
+                                 @RequestBody AccountMapperModel accountDto) {
         try {
-            accountService.activeAccount(accountDto);
+            accountService.activeAccount(id, accountDto);
             return ResponseFactory.getSuccessResponse(Response.SUCCESS);
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }
 
-    @GetMapping("/find-account")
-    public Response getAccount(@RequestParam(name = "accountId", required = true) Integer accountId) {
+    @GetMapping("/find-account/{id}")
+    public Response getAccount(@PathVariable("id") long id) {
         try {
-            return ResponseFactory.getSuccessResponse(Response.SUCCESS, accountService.getAccountByAccountId(accountId));
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS,
+                    accountService.getAccountByAccountId(id));
 
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }
 
-    private UserTokenModel getUserToken(HttpServletRequest request){
+    @PostMapping("/change-role/{id}")
+    public Response changeRole(@PathVariable("id") long id,
+                               @RequestBody AccountMapperModel accountDto) {
+        try {
+            accountService.changeRole(id, accountDto);
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS);
+        } catch (Exception exception) {
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
+    private UserTokenModel getUserToken(HttpServletRequest request) {
         return commonToken.getUserToken(request);
     }
 }

@@ -1,6 +1,5 @@
 package com.dogoo.SystemWeighingSas.filter;
 
-import com.auth0.jwt.algorithms.Algorithm;
 import com.dogoo.SystemWeighingSas.unitity.token.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

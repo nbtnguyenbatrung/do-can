@@ -3,10 +3,13 @@ package com.dogoo.SystemWeighingSas.controllerPublic;
 import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.model.TokenMapperModel;
 import com.dogoo.SystemWeighingSas.service.AccountService;
+import com.dogoo.SystemWeighingSas.unitity.response.Response;
+import com.dogoo.SystemWeighingSas.unitity.response.ResponseFactory;
 import com.dogoo.SystemWeighingSas.unitity.token.JwtService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.dogoo.SystemWeighingSas.validator.AccountValidator;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @CrossOrigin
 @RestController
@@ -15,30 +18,39 @@ public class LoginController {
 
     private final JwtService jwtService;
     private final AccountService accountService;
+    private final AccountValidator validator;
 
-    public LoginController(JwtService jwtService, AccountService accountService) {
+    public LoginController(JwtService jwtService,
+                           AccountService accountService,
+                           AccountValidator validator) {
         this.jwtService = jwtService;
         this.accountService = accountService;
+        this.validator = validator;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenMapperModel> login(@RequestBody TokenMapperModel model) {
+    public Response login(@RequestBody TokenMapperModel model,
+                          HttpServletResponse httpServletResponse) {
         try {
 
-            Account account = accountService.getAccountByScreenName(model.getEmail());
+            Response response = validator.validatorLogin(model.getEmail(), model.getPassword());
 
-            if (account != null){
-                String access_token = jwtService.getJWToken(account.getEmail());
-                String refresh_token = jwtService.getRefreshToken(account.getEmail());
+            if (response == null) {
+                Account account = accountService.getAccountByScreenName(model.getEmail());
+
+                String access_token = jwtService.getJWToken(account.getScreenName());
+                String refresh_token = jwtService.getRefreshToken(account.getScreenName());
 
                 model.setAccess_token(access_token);
                 model.setRefresh_token(refresh_token);
-                return new ResponseEntity<>(model, HttpStatus.OK);
+                return ResponseFactory.getSuccessResponse(Response.SUCCESS, model);
             }
 
-            return new ResponseEntity<>(new TokenMapperModel(), HttpStatus.UNAUTHORIZED);
+            httpServletResponse.setStatus(400);
+            return response;
         } catch (Exception exception) {
-            return new ResponseEntity<>(new TokenMapperModel(), HttpStatus.UNAUTHORIZED);
+            httpServletResponse.setStatus(400);
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }
 }

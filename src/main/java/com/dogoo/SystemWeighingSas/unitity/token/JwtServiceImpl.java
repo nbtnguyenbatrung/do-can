@@ -35,7 +35,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String getJWToken(String userName) {
 
-        Account account = accountService.getAccountByMail(userName);
+        Account account = accountService.getAccountByScreenName(userName);
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -74,7 +74,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String getRefreshToken(String userName) {
 
-        Account account = accountService.getAccountByMail(userName);
+        Account account = accountService.getAccountByScreenName(userName);
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 

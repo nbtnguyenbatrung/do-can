@@ -1,6 +1,5 @@
 package com.dogoo.SystemWeighingSas.controller;
 
-import com.dogoo.SystemWeighingSas.entity.Customer;
 import com.dogoo.SystemWeighingSas.entity.WeighingStation;
 import com.dogoo.SystemWeighingSas.model.WeighingStationMapperModel;
 import com.dogoo.SystemWeighingSas.service.WeighingStationService;
@@ -44,7 +43,7 @@ public class WeighingStationController {
                 WeighingStation to = weighingStationService.updateWeighingStation(id, model);
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS, to);
             }
-            httpServletResponse.setStatus(404);
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
@@ -61,7 +60,7 @@ public class WeighingStationController {
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS);
             }
 
-            httpServletResponse.setStatus(404);
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
@@ -78,7 +77,7 @@ public class WeighingStationController {
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS, to);
             }
 
-            httpServletResponse.setStatus(404);
+            httpServletResponse.setStatus(400);
             return response;
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
