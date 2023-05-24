@@ -61,6 +61,7 @@ public class JwtServiceImpl implements JwtService {
                 account.getRoleCreate() != null ? account.getRoleCreate() : Boolean.FALSE);
         claims.put(ClaimsKeys.ROLE_VIEW,
                 account.getRoleView() != null ? account.getRoleView() : Boolean.FALSE);
+        claims.put(ClaimsKeys.SCREEN_NAME, account.getScreenName());
 
         token  = Jwts.builder()
                 .setClaims(claims)
@@ -100,6 +101,7 @@ public class JwtServiceImpl implements JwtService {
                 account.getRoleCreate() != null ? account.getRoleCreate() : Boolean.FALSE);
         claims.put(ClaimsKeys.ROLE_VIEW,
                 account.getRoleView() != null ? account.getRoleView() : Boolean.FALSE);
+        claims.put(ClaimsKeys.SCREEN_NAME, account.getScreenName());
 
         token  = Jwts.builder()
                 .setClaims(claims)

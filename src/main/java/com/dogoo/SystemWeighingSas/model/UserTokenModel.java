@@ -4,6 +4,7 @@ public class UserTokenModel {
 
     private Long accountId;
     private String email;
+    private String screenName;
     private String key ;
     private String roles ;
     private Boolean roleCreate;
@@ -23,6 +24,14 @@ public class UserTokenModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
     }
 
     public String getKey() {

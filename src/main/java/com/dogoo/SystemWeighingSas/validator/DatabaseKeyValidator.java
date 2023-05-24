@@ -39,11 +39,10 @@ public class DatabaseKeyValidator {
     public ResponseEntity<String> validatorCheck(String key, String databaseKey){
         Customer customer = iCustomerDao.findCustomerByKey(key);
         ResponseEntity<String> responseKey = validatorNotFoundKey(customer);
-        ResponseEntity<String> responseDatabaseKey = validatorNotFoundDatabaseKey(customer, databaseKey);
 
         if (responseKey != null)
             return  responseKey;
 
-        return responseDatabaseKey;
+        return validatorNotFoundDatabaseKey(customer, databaseKey);
     }
 }

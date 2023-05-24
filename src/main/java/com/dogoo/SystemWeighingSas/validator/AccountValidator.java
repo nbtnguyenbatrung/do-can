@@ -80,13 +80,11 @@ public class AccountValidator {
     public Response validatorAdd(UserTokenModel model,
                                  AccountMapperModel accountDto) {
         Response responseScreenName = validatorScreenName(accountDto.getScreenName());
-        Response responseEmail = validatorEmail(accountDto.getEmail());
 
         if (responseScreenName != null) {
             return responseScreenName;
         }
-
-        return responseEmail;
+        return validatorEmail(accountDto.getEmail());
 
     }
 
@@ -94,19 +92,14 @@ public class AccountValidator {
                                     UserTokenModel model,
                                     AccountMapperModel accountDto) {
         Response responseScreenName = validatorScreenNameUpdate(id, accountDto.getScreenName());
-        Response responseEmail = validatorEmailUpdate(id, accountDto.getEmail());
 
         if (responseScreenName != null) {
             return responseScreenName;
         }
-
-        return responseEmail;
+        return validatorEmailUpdate(id, accountDto.getEmail());
     }
 
-    public Response validatorScreenNameLogin(String screenName) {
-
-        Account account = iAccountDao.findAccountByScreenName(
-                screenName);
+    public Response validatorScreenNameLogin(Account account) {
 
         if (account != null) {
             return null;
@@ -114,10 +107,7 @@ public class AccountValidator {
         return ResponseFactory.getClientErrorResponse("Tên đăng nhập hoặc mật khẩu không chính xác");
     }
 
-    public Response validatorPassword(String screenName, String password) {
-
-        Account account = iAccountDao.findAccountByScreenName(
-                screenName);
+    public Response validatorPassword(Account account, String password) {
 
         if (passwordEncoder.matches(password, account.getPassword())) {
             return null;
@@ -125,9 +115,7 @@ public class AccountValidator {
         return ResponseFactory.getClientErrorResponse("Tên đăng nhập hoặc mật khẩu không chính xác");
     }
 
-    public Response validatorStatus(String screenName) {
-
-        Account account = iAccountDao.findAccountByScreenName(screenName);
+    public Response validatorStatus(Account account) {
 
         if (account.getStatus().equals(StatusEnum.active)) {
             return null;
@@ -138,19 +126,21 @@ public class AccountValidator {
 
     public Response validatorLogin(String screenName, String password) {
 
-        Response responseScreenName = validatorScreenNameLogin(screenName);
-        Response responsePassword = validatorPassword(screenName, password);
-        Response responseStatus = validatorStatus(screenName);
+        Account account = iAccountDao.findAccountByScreenName(
+                screenName);
+        Response responseScreenName = validatorScreenNameLogin(account);
 
         if (responseScreenName != null) {
             return responseScreenName;
         }
 
+        Response responsePassword = validatorPassword(account, password);
+
         if (responsePassword != null) {
             return responsePassword;
         }
 
-        return responseStatus;
+        return validatorStatus(account);
 
     }
 
@@ -177,13 +167,12 @@ public class AccountValidator {
 
         Account account = iAccountDao.findByAccountId(accountId);
         Response responseOldPassword = validatorOldPassword(account, model.getPassword());
-        Response responseConfirmPassword = validatorConfirmPassword(
-                model.getNewPassword(), model.getConfirmPassword());
 
         if (responseOldPassword != null) {
             return responseOldPassword;
         }
 
-        return responseConfirmPassword;
+        return validatorConfirmPassword(
+                model.getNewPassword(), model.getConfirmPassword());
     }
 }

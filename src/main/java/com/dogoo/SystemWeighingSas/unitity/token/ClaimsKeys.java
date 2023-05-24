@@ -9,4 +9,6 @@ public class ClaimsKeys {
     public static final String ROLE_CREATE = "roleCreate";
     public static final String ROLE_VIEW = "roleView";
     public static final String USER_CONTEXT = "dogoo-x-user-context-request";
+    public static final String USER_CONTEXT_REFRESH_TOKEN = "dogoo-x-user-context-request-refresh-token";
+    public static final String SCREEN_NAME = "screenName";
 }

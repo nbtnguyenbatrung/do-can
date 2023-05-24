@@ -35,6 +35,33 @@ public class CommonToken {
                 Boolean.parseBoolean(claims.get(ClaimsKeys.ROLES).toString()) : Boolean.FALSE);
         userToken.setRoleView(claims.get(ClaimsKeys.ROLE_VIEW) != null ?
                 Boolean.parseBoolean(claims.get(ClaimsKeys.ROLES).toString()) : Boolean.FALSE);
+        userToken.setScreenName(claims.get(ClaimsKeys.SCREEN_NAME) != null ?
+                claims.get(ClaimsKeys.SCREEN_NAME).toString() : "");
+
+        return userToken;
+    }
+
+    public UserTokenModel getUserRefreshToken(HttpServletRequest httpServletRequest) {
+        String userContext = httpServletRequest.getHeader(ClaimsKeys.USER_CONTEXT_REFRESH_TOKEN);
+
+        Claims claims = decodeJWToken(userContext);
+
+        UserTokenModel userToken = new UserTokenModel();
+
+        userToken.setEmail(claims.get(ClaimsKeys.EMAIL) != null ?
+                claims.get(ClaimsKeys.EMAIL).toString() : "");
+        userToken.setAccountId(claims.get(ClaimsKeys.ACCOUNT_ID) != null ?
+                Long.parseLong(claims.get(ClaimsKeys.ACCOUNT_ID).toString()) : 0L);
+        userToken.setKey(claims.get(ClaimsKeys.KEY) != null ?
+                claims.get(ClaimsKeys.KEY).toString() : "");
+        userToken.setRoles(claims.get(ClaimsKeys.ROLES) != null ?
+                claims.get(ClaimsKeys.ROLES).toString() : "");
+        userToken.setRoleCreate(claims.get(ClaimsKeys.ROLE_CREATE) != null ?
+                Boolean.parseBoolean(claims.get(ClaimsKeys.ROLES).toString()) : Boolean.FALSE);
+        userToken.setRoleView(claims.get(ClaimsKeys.ROLE_VIEW) != null ?
+                Boolean.parseBoolean(claims.get(ClaimsKeys.ROLES).toString()) : Boolean.FALSE);
+        userToken.setScreenName(claims.get(ClaimsKeys.SCREEN_NAME) != null ?
+                claims.get(ClaimsKeys.SCREEN_NAME).toString() : "");
 
         return userToken;
     }
