@@ -1,9 +1,12 @@
 package com.dogoo.SystemWeighingSas.service.impl;
 
 import com.dogoo.SystemWeighingSas.config.Constants;
+import com.dogoo.SystemWeighingSas.dao.ICustomerDao;
 import com.dogoo.SystemWeighingSas.dao.IWeighingStationDao;
+import com.dogoo.SystemWeighingSas.entity.Customer;
 import com.dogoo.SystemWeighingSas.entity.WeighingStation;
 import com.dogoo.SystemWeighingSas.mapper.WeighingStationMapper;
+import com.dogoo.SystemWeighingSas.model.UserTokenModel;
 import com.dogoo.SystemWeighingSas.model.WeighingStationMapperModel;
 import com.dogoo.SystemWeighingSas.service.WeighingStationService;
 import com.dogoo.SystemWeighingSas.unitity.response.ResultResponse;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,6 +30,8 @@ public class WeighingStationServiceImpl implements WeighingStationService {
     private IWeighingStationDao iWeighingStationDao;
     @Autowired
     private WeighingStationMapper mapper;
+    @Autowired
+    private ICustomerDao iCustomerDao;
 
     @Override
     public WeighingStation addWeighingStation(WeighingStationMapperModel model) {
@@ -78,5 +84,12 @@ public class WeighingStationServiceImpl implements WeighingStationService {
 
         Optional<WeighingStation> optionalWeighingStation = iWeighingStationDao.findById(id);
         return optionalWeighingStation.orElse(null);
+    }
+
+    @Override
+    public List<WeighingStation> getWeighingStationByCustomer(UserTokenModel model) {
+
+        Customer customer = iCustomerDao.findCustomerByKey(model.getKey());
+        return iWeighingStationDao.findWeighingStationByCustomerId(customer.getId());
     }
 }

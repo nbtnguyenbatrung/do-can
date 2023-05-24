@@ -1,8 +1,11 @@
 package com.dogoo.SystemWeighingSas.service;
 
 import com.dogoo.SystemWeighingSas.entity.WeighingStation;
+import com.dogoo.SystemWeighingSas.model.UserTokenModel;
 import com.dogoo.SystemWeighingSas.model.WeighingStationMapperModel;
 import com.dogoo.SystemWeighingSas.unitity.response.ResultResponse;
+
+import java.util.List;
 
 public interface WeighingStationService {
 
@@ -11,5 +14,7 @@ public interface WeighingStationService {
     void deleteWeighingStation(long id);
     ResultResponse<WeighingStationMapperModel> getWeighingStations(Integer pageSize, Integer page);
     WeighingStation getWeighingStation(long id);
+
+    List<WeighingStation> getWeighingStationByCustomer(UserTokenModel model);
 
 }
