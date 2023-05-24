@@ -26,8 +26,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void updateRole(RoleMapperModel model) {
         Role role = iRoleDao.findById(model.getId());
-        role.setCreate(model.isCreate());
-        role.setView(model.isView());
+        role.setRoleCreate(model.isRoleCreate());
+        role.setRoleView(model.isRoleView());
         role.setModule(model.getModule());
 
         iRoleDao.save(role);

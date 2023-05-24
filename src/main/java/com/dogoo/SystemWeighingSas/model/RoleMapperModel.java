@@ -18,6 +18,6 @@ public class RoleMapperModel {
     private Long accountId;
     private String module = "";
 
-    private boolean view;
-    private boolean create;
+    private boolean roleView;
+    private boolean roleCreate;
 }

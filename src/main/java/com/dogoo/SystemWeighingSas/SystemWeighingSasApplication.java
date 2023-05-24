@@ -4,7 +4,6 @@ import com.dogoo.SystemWeighingSas.dao.IAccountDao;
 import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.enumEntity.RoleEnum;
 import com.dogoo.SystemWeighingSas.enumEntity.StatusEnum;
-import com.dogoo.SystemWeighingSas.model.AccountMapperModel;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
