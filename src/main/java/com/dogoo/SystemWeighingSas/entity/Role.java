@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Entity(name = "DG_account")
+@Entity(name = "DG_role")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
