@@ -102,7 +102,7 @@ public class WeighingStationController {
         }
     }
 
-    @GetMapping("/get-list")
+    @GetMapping("/get-list-weighing-station")
     public Response getListWeighingStationByCustomer(HttpServletRequest request) {
         try {
             return ResponseFactory.getSuccessResponse(Response.SUCCESS,
