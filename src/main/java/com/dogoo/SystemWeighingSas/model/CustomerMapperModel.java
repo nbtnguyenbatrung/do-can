@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +28,6 @@ public class CustomerMapperModel {
     private long  numberWeighingStations ;
     private long numberAccount ;
     private Timestamp createDate;
+
+    private List<WeighingStationMapperModel> list;
 }

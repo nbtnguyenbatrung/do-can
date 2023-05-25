@@ -1,5 +1,6 @@
 package com.dogoo.SystemWeighingSas.service.impl;
 
+import com.dogoo.SystemWeighingSas.common.generalPassword.PwdGenerator;
 import com.dogoo.SystemWeighingSas.config.Constants;
 import com.dogoo.SystemWeighingSas.dao.ICustomerDao;
 import com.dogoo.SystemWeighingSas.dao.IWeighingStationDao;
@@ -32,6 +33,8 @@ public class WeighingStationServiceImpl implements WeighingStationService {
     private WeighingStationMapper mapper;
     @Autowired
     private ICustomerDao iCustomerDao;
+    @Autowired
+    private PwdGenerator pwdGenerator;
 
     @Override
     public WeighingStation addWeighingStation(WeighingStationMapperModel model) {
@@ -91,5 +94,15 @@ public class WeighingStationServiceImpl implements WeighingStationService {
 
         Customer customer = iCustomerDao.findCustomerByKey(model.getKey());
         return iWeighingStationDao.findWeighingStationByCustomerId(customer.getId());
+    }
+
+    @Override
+    public void deleteWeighingStationByCustomer(long customerId) {
+        iWeighingStationDao.deleteAllByCustomerId(customerId);
+    }
+
+    @Override
+    public String getCodeWeighingStation(String name) {
+        return pwdGenerator.getCodeWeighingStation(name);
     }
 }

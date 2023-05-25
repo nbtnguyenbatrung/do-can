@@ -16,5 +16,8 @@ public interface WeighingStationService {
     WeighingStation getWeighingStation(long id);
 
     List<WeighingStation> getWeighingStationByCustomer(UserTokenModel model);
+    void deleteWeighingStationByCustomer(long customerId);
+
+    String getCodeWeighingStation(String name);
 
 }

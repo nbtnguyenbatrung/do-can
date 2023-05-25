@@ -113,6 +113,22 @@ public class WeighingStationController {
         }
     }
 
+    @GetMapping("/get-auto-code")
+    public Response getAutoCodeCustomer(@RequestParam(name = "name", defaultValue = "", required = false) String name,
+                                        HttpServletResponse httpServletResponse) {
+        try {
+            if (name.equals(""))
+                return ResponseFactory.getSuccessResponse(Response.SUCCESS, "");
+
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS,
+                    weighingStationService.getCodeWeighingStation(name));
+
+        } catch (Exception exception) {
+            httpServletResponse.setStatus(400);
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
     private UserTokenModel getUserToken(HttpServletRequest request) {
         return commonToken.getUserToken(request);
     }

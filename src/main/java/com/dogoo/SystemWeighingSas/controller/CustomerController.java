@@ -94,12 +94,28 @@ public class CustomerController {
 
     @GetMapping("/get-list")
     public Response getListCustomer(@RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                   @RequestParam(name = "page", defaultValue = "0", required = false) Integer page) {
+                                    @RequestParam(name = "page", defaultValue = "0", required = false) Integer page) {
         try {
             return ResponseFactory.getSuccessResponse(Response.SUCCESS,
                     customerService.getCustomers(pageSize, page));
 
         } catch (Exception exception) {
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/get-auto-code")
+    public Response getAutoCodeCustomer(@RequestParam(name = "name", defaultValue = "", required = false) String name,
+                                        HttpServletResponse httpServletResponse) {
+        try {
+
+            if (name.equals(""))
+                return ResponseFactory.getSuccessResponse(Response.SUCCESS, "");
+
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS,customerService.getCodeCustomer(name));
+
+        } catch (Exception exception) {
+            httpServletResponse.setStatus(400);
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }

@@ -159,6 +159,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setEmail(customer.getEmail());
         account.setPassword(passwordEncoder.encode(password));
         account.setChangePassword(Boolean.FALSE);
+        account.setKey(customer.getKey());
         account = iAccountDao.save(account);
 
         Map<String, Object> model = new HashMap<>();

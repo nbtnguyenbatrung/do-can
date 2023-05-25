@@ -13,4 +13,6 @@ public interface CustomerService {
     void deleteCustomer(long id);
     ResultResponse<CustomerMapperModel> getCustomers(Integer pageSize, Integer page);
     Customer getCustomer(long id);
+
+    String getCodeCustomer(String name);
 }

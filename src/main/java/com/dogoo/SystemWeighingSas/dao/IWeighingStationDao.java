@@ -16,4 +16,8 @@ public interface IWeighingStationDao extends JpaRepository<WeighingStation,Long>
     @Query("select ac from DG_WeighingStation ac Where ac.customerId=:customerId AND weighingStationCode=:weighingStationCode ")
     WeighingStation getWeighingStation(@Param("customerId") long customerId,
                                        @Param("weighingStationCode") String weighingStationCode);
+
+    void deleteAllByCustomerId(long customerId);
+
+    boolean existsByWeighingStationCode(String weighingStationCode);
 }

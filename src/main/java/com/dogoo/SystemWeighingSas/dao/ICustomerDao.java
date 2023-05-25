@@ -11,4 +11,6 @@ public interface ICustomerDao extends JpaRepository<Customer,Long> {
     Customer findCustomerByCustomerCode(String customerCode);
     Customer findCustomerByKey(String key);
     Customer findCustomerByEmail(String email);
+
+    boolean existsByCustomerCode(String customerCode);
 }
