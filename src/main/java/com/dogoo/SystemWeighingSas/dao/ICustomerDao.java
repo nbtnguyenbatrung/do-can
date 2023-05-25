@@ -18,5 +18,6 @@ public interface ICustomerDao extends JpaRepository<Customer,Long> {
 
     boolean existsByCustomerCode(String customerCode);
 
-    List<Customer> findAllByCustomerNameLike(@Param("customerName") String customerName);
+    @Query("select ac from DG_Customer ac Where ac.customerName LIKE %?1% ")
+    List<Customer> findAllByCustomerNameLike(String customerName);
 }
