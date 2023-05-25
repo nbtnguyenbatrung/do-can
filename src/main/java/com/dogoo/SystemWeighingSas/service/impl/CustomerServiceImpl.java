@@ -108,7 +108,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (search == null || search.equals("")){
             return iCustomerDao.findAll();
         }
-        return iCustomerDao.findByCustomerNameLike(search);
+        return iCustomerDao.findAllByCustomerNameLike(search);
     }
 
     private void addListWeighingStation(long customerId,
