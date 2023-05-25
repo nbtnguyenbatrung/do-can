@@ -77,7 +77,7 @@ public class PwdGenerator {
         AtomicReference<String> sbString = new AtomicReference<>(screenName);
 
         while (Boolean.TRUE.equals(check)){
-            sbString.set(screenName + getPrefixCodeDuplicate());
+            sbString.set(screenName + getPrefixCodeDuplicate().toLowerCase());
             check = iAccountDao.existsByScreenName(sbString.get());
         }
         return sbString.get();
@@ -104,7 +104,7 @@ public class PwdGenerator {
         AtomicReference<String> sbString = new AtomicReference<>(screenName);
 
         while (Boolean.TRUE.equals(check)){
-            sbString.set(screenName + getPrefixCodeDuplicate());
+            sbString.set(screenName + getPrefixCodeDuplicate().toLowerCase());
             check = iAccountDao.existsByScreenName(sbString.get());
         }
         return sbString.get();
@@ -116,7 +116,7 @@ public class PwdGenerator {
         int lastIndex = s.lastIndexOf(" ");
         List<String> list = Arrays.asList(s.split(" ", lastIndex));
         String sc = list.stream()
-                .map(s1 -> s1.substring(0,1).toLowerCase())
+                .map(s1 -> s1.substring(0,1))
                 .collect(Collectors.joining(""));
         String screenName = "KH_"+sc;
         boolean check = iCustomerDao.existsByCustomerCode(screenName);
@@ -135,7 +135,7 @@ public class PwdGenerator {
         int lastIndex = s.lastIndexOf(" ");
         List<String> list = Arrays.asList(s.split(" ", lastIndex));
         String sc = list.stream()
-                .map(s1 -> s1.substring(0,1).toLowerCase())
+                .map(s1 -> s1.substring(0,1))
                 .collect(Collectors.joining(""));
         String screenName = "KH_"+sc;
         boolean check = iCustomerDao.existsByCustomerCode(screenName);
