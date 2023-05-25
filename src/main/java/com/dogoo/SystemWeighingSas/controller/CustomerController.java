@@ -112,10 +112,21 @@ public class CustomerController {
             if (name.equals(""))
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS, "");
 
-            return ResponseFactory.getSuccessResponse(Response.SUCCESS,customerService.getCodeCustomer(name));
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS, customerService.getCodeCustomer(name));
 
         } catch (Exception exception) {
             httpServletResponse.setStatus(400);
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/get-list-search")
+    public Response getListCustomerSearch(@RequestParam(name = "search", defaultValue = "", required = false) String search) {
+        try {
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS,
+                    customerService.getCustomerBySearch(search));
+
+        } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }

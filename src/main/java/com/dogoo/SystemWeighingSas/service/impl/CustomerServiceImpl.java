@@ -103,6 +103,11 @@ public class CustomerServiceImpl implements CustomerService {
         return pwdGenerator.getCustomerCode(name);
     }
 
+    @Override
+    public List<Customer> getCustomerBySearch(String search) {
+        return iCustomerDao.findByCustomerNameLike(search);
+    }
+
     private void addListWeighingStation(long customerId,
                                         List<WeighingStationMapperModel> list) {
         list.forEach(weighingStationMapperModel -> {

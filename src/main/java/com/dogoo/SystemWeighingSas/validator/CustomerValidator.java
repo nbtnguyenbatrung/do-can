@@ -22,11 +22,6 @@ public class CustomerValidator {
     private static final String PHONE_REG =
             formatPhone1 + formatPhone2 + formatPhone3 + formatPhone4;
 
-    private static final String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$" +
-            "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\\\.[A-Za-z0-9]+)$";
-
-
     @Autowired
     private ICustomerDao iCustomerDao;
 
