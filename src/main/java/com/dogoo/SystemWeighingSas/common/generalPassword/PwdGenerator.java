@@ -137,7 +137,7 @@ public class PwdGenerator {
         String sc = list.stream()
                 .map(s1 -> s1.substring(0,1))
                 .collect(Collectors.joining(""));
-        String screenName = "KH_"+sc;
+        String screenName = "TC_"+sc;
         boolean check = iCustomerDao.existsByCustomerCode(screenName);
         AtomicReference<String> sbString = new AtomicReference<>(screenName);
 
