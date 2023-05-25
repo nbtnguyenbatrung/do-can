@@ -138,10 +138,11 @@ public class CustomerServiceImpl implements CustomerService {
                 if (weighingStationMapperModel.getId() == 0){
                     weighingStationMapperModel.setCustomerId(customerId);
                     weighingStationService.addWeighingStation(weighingStationMapperModel);
-                }else{
-                    weighingStationService.updateWeighingStation(weighingStationMapperModel.getId(),
-                            weighingStationMapperModel);
                 }
+//                else{
+//                    weighingStationService.updateWeighingStation(weighingStationMapperModel.getId(),
+//                            weighingStationMapperModel);
+//                }
             });
         }
     }
