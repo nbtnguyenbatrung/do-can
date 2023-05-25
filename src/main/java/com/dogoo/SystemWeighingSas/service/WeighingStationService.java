@@ -20,4 +20,6 @@ public interface WeighingStationService {
 
     String getCodeWeighingStation(String name);
 
+    List<WeighingStationMapperModel> getWeighingStationByCustomerId(long customerId);
+
 }

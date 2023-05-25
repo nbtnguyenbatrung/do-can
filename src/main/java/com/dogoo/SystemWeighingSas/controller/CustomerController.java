@@ -81,7 +81,7 @@ public class CustomerController {
         try {
             Response response = validator.validatorExits(id);
             if (response == null) {
-                Customer to = customerService.getCustomer(id);
+                CustomerMapperModel to = customerService.getCustomer(id);
                 return ResponseFactory.getSuccessResponse(Response.SUCCESS, to);
             }
 

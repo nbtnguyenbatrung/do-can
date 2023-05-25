@@ -105,4 +105,15 @@ public class WeighingStationServiceImpl implements WeighingStationService {
     public String getCodeWeighingStation(String name) {
         return pwdGenerator.getCodeWeighingStation(name);
     }
+
+    @Override
+    public List<WeighingStationMapperModel> getWeighingStationByCustomerId(long customerId) {
+        return iWeighingStationDao.findWeighingStationByCustomerId(customerId)
+                .stream()
+                .map(weighingStation -> {
+                    return Constants.SERIALIZER.convertValue(
+                            weighingStation, WeighingStationMapperModel.class);
+                })
+                .collect(Collectors.toList());
+    }
 }

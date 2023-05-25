@@ -17,7 +17,7 @@ public interface CustomerService {
 
     ResultResponse<CustomerMapperModel> getCustomers(Integer pageSize, Integer page);
 
-    Customer getCustomer(long id);
+    CustomerMapperModel getCustomer(long id);
 
     String getCodeCustomer(String name);
 

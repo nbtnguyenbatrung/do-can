@@ -92,10 +92,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomer(long id) {
+    public CustomerMapperModel getCustomer(long id) {
 
         Optional<Customer> optionalCustomer = iCustomerDao.findById(id);
-        return optionalCustomer.orElse(null);
+
+        if (optionalCustomer.isPresent()){
+            CustomerMapperModel model = Constants.SERIALIZER.convertValue(
+                    optionalCustomer.get() , CustomerMapperModel.class);
+            model.setList(weighingStationService.getWeighingStationByCustomerId(id));
+            return model;
+        }
+
+        return null;
     }
 
     @Override
