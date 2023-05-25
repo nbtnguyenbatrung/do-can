@@ -124,7 +124,7 @@ public class PwdGenerator {
 
         while (Boolean.TRUE.equals(check)){
             sbString.set(screenName + getPrefixCodeDuplicate());
-            check = iCustomerDao.existsByCustomerCode(screenName);
+            check = iCustomerDao.existsByCustomerCode(sbString.get());
         }
         return sbString.get();
     }
@@ -143,7 +143,7 @@ public class PwdGenerator {
 
         while (Boolean.TRUE.equals(check)){
             sbString.set(screenName + getPrefixCodeDuplicate());
-            check = iCustomerDao.existsByCustomerCode(screenName);
+            check = iCustomerDao.existsByCustomerCode(sbString.get());
         }
         return sbString.get();
     }
