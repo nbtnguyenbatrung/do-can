@@ -2,9 +2,7 @@ package com.dogoo.SystemWeighingSas.validator;
 
 import com.dogoo.SystemWeighingSas.dao.ICustomerDao;
 import com.dogoo.SystemWeighingSas.entity.Customer;
-import com.dogoo.SystemWeighingSas.model.AccountMapperModel;
 import com.dogoo.SystemWeighingSas.model.CustomerMapperModel;
-import com.dogoo.SystemWeighingSas.model.UserTokenModel;
 import com.dogoo.SystemWeighingSas.unitity.response.Response;
 import com.dogoo.SystemWeighingSas.unitity.response.ResponseFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,8 @@ public class CustomerValidator {
             formatPhone1 + formatPhone2 + formatPhone3 + formatPhone4;
 
     private static final String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$" +
+            "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\\\.[A-Za-z0-9]+)$";
 
 
     @Autowired
@@ -67,7 +66,7 @@ public class CustomerValidator {
         if (Pattern.matches(regexPattern, email))
             return null;
 
-        return ResponseFactory.getClientErrorResponse("Số điện thoại không đúng định dạng");
+        return ResponseFactory.getClientErrorResponse("Email không đúng định dạng");
     }
 
     public Response validatorDuplicateEmail (String email) {
