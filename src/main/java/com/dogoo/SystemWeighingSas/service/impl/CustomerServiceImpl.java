@@ -96,9 +96,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         Optional<Customer> optionalCustomer = iCustomerDao.findById(id);
 
-        if (optionalCustomer.isPresent()){
+        if (optionalCustomer.isPresent()) {
             CustomerMapperModel model = Constants.SERIALIZER.convertValue(
-                    optionalCustomer.get() , CustomerMapperModel.class);
+                    optionalCustomer.get(), CustomerMapperModel.class);
             model.setList(weighingStationService.getWeighingStationByCustomerId(id));
             return model;
         }
@@ -113,7 +113,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> getCustomerBySearch(String search) {
-        if (search == null || search.equals("")){
+        if (search == null || search.equals("")) {
             return iCustomerDao.findAll();
         }
         return iCustomerDao.findAllByCustomerNameLike(search);
@@ -122,7 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
     private void addListWeighingStation(long customerId,
                                         List<WeighingStationMapperModel> list) {
 
-        if (list != null){
+        if (list != null) {
             list.forEach(weighingStationMapperModel -> {
                 weighingStationMapperModel.setCustomerId(customerId);
                 weighingStationService.addWeighingStation(weighingStationMapperModel);
@@ -133,9 +133,10 @@ public class CustomerServiceImpl implements CustomerService {
     private void updateListWeighingStation(long customerId,
                                            List<WeighingStationMapperModel> list) {
 
-        if (list != null){
+        if (list != null) {
             list.forEach(weighingStationMapperModel -> {
-                if (weighingStationMapperModel.getId() == 0){
+                if (weighingStationMapperModel.getId() == null ||
+                        weighingStationMapperModel.getId() == 0) {
                     weighingStationMapperModel.setCustomerId(customerId);
                     weighingStationService.addWeighingStation(weighingStationMapperModel);
                 }
