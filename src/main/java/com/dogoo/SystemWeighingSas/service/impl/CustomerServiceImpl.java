@@ -110,22 +110,28 @@ public class CustomerServiceImpl implements CustomerService {
 
     private void addListWeighingStation(long customerId,
                                         List<WeighingStationMapperModel> list) {
-        list.forEach(weighingStationMapperModel -> {
-            weighingStationMapperModel.setCustomerId(customerId);
-            weighingStationService.addWeighingStation(weighingStationMapperModel);
-        });
+
+        if (list != null){
+            list.forEach(weighingStationMapperModel -> {
+                weighingStationMapperModel.setCustomerId(customerId);
+                weighingStationService.addWeighingStation(weighingStationMapperModel);
+            });
+        }
     }
 
     private void updateListWeighingStation(long customerId,
                                            List<WeighingStationMapperModel> list) {
-        list.forEach(weighingStationMapperModel -> {
-            if (weighingStationMapperModel.getId() == 0){
-                weighingStationMapperModel.setCustomerId(customerId);
-                weighingStationService.addWeighingStation(weighingStationMapperModel);
-            }else{
-                weighingStationService.updateWeighingStation(weighingStationMapperModel.getId(),
-                        weighingStationMapperModel);
-            }
-        });
+
+        if (list != null){
+            list.forEach(weighingStationMapperModel -> {
+                if (weighingStationMapperModel.getId() == 0){
+                    weighingStationMapperModel.setCustomerId(customerId);
+                    weighingStationService.addWeighingStation(weighingStationMapperModel);
+                }else{
+                    weighingStationService.updateWeighingStation(weighingStationMapperModel.getId(),
+                            weighingStationMapperModel);
+                }
+            });
+        }
     }
 }
