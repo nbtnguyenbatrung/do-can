@@ -105,6 +105,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> getCustomerBySearch(String search) {
+        if (search == null || search.equals("")){
+            return iCustomerDao.findAll();
+        }
         return iCustomerDao.findByCustomerNameLike(search);
     }
 
