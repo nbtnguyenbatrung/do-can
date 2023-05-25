@@ -5,6 +5,7 @@ import com.dogoo.SystemWeighingSas.entity.Customer;
 import com.dogoo.SystemWeighingSas.model.CustomerMapperModel;
 import com.dogoo.SystemWeighingSas.unitity.response.Response;
 import com.dogoo.SystemWeighingSas.unitity.response.ResponseFactory;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,8 +64,9 @@ public class CustomerValidator {
         if (email == null)
             return null;
 
-        if (Pattern.matches(regexPattern, email))
+        if (EmailValidator.getInstance().isValid(email)){
             return null;
+        }
 
         return ResponseFactory.getClientErrorResponse("Email không đúng định dạng");
     }
