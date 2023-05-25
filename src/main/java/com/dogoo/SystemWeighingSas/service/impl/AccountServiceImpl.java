@@ -165,7 +165,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Map<String, Object> model = new HashMap<>();
         model.put("name", customer.getCustomerName());
         model.put("screenName", account.getScreenName() );
-        model.put("password", account.getPassword() );
+        model.put("password", password );
         mailUtil.sendSimpleMail(customer.getEmail(),
                 SUBJECT , model );
 
