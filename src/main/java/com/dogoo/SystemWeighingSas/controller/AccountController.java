@@ -90,7 +90,7 @@ public class AccountController {
     }
      */
 
-    @PostMapping("/change-password/{id}")
+    @PutMapping("/change-password/{id}")
     public Response changePassword(@PathVariable("id") long id,
                                    @RequestBody AccountMapperModel accountDto,
                                    HttpServletResponse httpServletResponse) {
@@ -117,7 +117,7 @@ public class AccountController {
         "status":1
     }
     */
-    @PostMapping("/change-status/{id}")
+    @PutMapping("/change-status/{id}")
     public Response changeStatus(@PathVariable("id") long id,
                                  @RequestBody AccountMapperModel accountDto) {
         try {
@@ -139,7 +139,7 @@ public class AccountController {
         }
     }
 
-    @PostMapping("/change-role/{id}")
+    @PutMapping("/change-role/{id}")
     public Response changeRole(@PathVariable("id") long id,
                                @RequestBody AccountMapperModel accountDto) {
         try {

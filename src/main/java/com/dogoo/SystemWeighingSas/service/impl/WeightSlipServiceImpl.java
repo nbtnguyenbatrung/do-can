@@ -2,6 +2,7 @@ package com.dogoo.SystemWeighingSas.service.impl;
 
 import com.dogoo.SystemWeighingSas.config.Constants;
 import com.dogoo.SystemWeighingSas.dao.IWeightSlipDao;
+import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import com.dogoo.SystemWeighingSas.mapper.WeightMapper;
 import com.dogoo.SystemWeighingSas.model.WeightSlipMapperModel;
@@ -9,7 +10,12 @@ import com.dogoo.SystemWeighingSas.service.WeightSlipService;
 import com.dogoo.SystemWeighingSas.thread.JobCompare;
 import com.dogoo.SystemWeighingSas.thread.JobCompareDelete;
 import com.dogoo.SystemWeighingSas.thread.JobCompareUpdate;
+import com.dogoo.SystemWeighingSas.unitity.response.ResultResponse;
 import com.dogoo.SystemWeighingSas.unitity.tasks.ThreadPool;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -93,6 +99,24 @@ public class WeightSlipServiceImpl implements WeightSlipService {
     @Override
     public List<WeightSlip> getWeightSlipsAction() {
         return iWeightSlipDao.getAllWeightSlipAction();
+    }
+
+    @Override
+    public ResultResponse<WeightSlip> getWeightSlips(String weighingStationCode,
+                                                     Integer limit,
+                                                     Integer page) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
+        Pageable pageable = PageRequest.of(page, 30, sort);
+        Page<WeightSlip> weightSlips = iWeightSlipDao
+                .findAllByDatabaseKey( weighingStationCode, pageable);
+        long total = iWeightSlipDao.countByDatabaseKey(weighingStationCode);
+        ResultResponse<WeightSlip> resultResponse = new ResultResponse<>();
+        resultResponse.setData(weightSlips.getContent());
+        resultResponse.setLimit(limit);
+        resultResponse.setPage(page);
+        resultResponse.setTotal(total);
+        resultResponse.setTotalPage((int) (total / limit));
+        return resultResponse;
     }
 
     private void syncDataWeightSlipNew(String key,

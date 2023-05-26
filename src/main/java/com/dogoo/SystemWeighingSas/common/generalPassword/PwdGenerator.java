@@ -138,12 +138,12 @@ public class PwdGenerator {
                 .map(s1 -> s1.substring(0,1))
                 .collect(Collectors.joining(""));
         String screenName = "TC_"+sc;
-        boolean check = iCustomerDao.existsByCustomerCode(screenName);
+        boolean check = iWeighingStationDao.existsByWeighingStationCode(screenName);
         AtomicReference<String> sbString = new AtomicReference<>(screenName);
 
         while (Boolean.TRUE.equals(check)){
             sbString.set(screenName + getPrefixCodeDuplicate());
-            check = iCustomerDao.existsByCustomerCode(sbString.get());
+            check = iWeighingStationDao.existsByWeighingStationCode(sbString.get());
         }
         return sbString.get();
     }

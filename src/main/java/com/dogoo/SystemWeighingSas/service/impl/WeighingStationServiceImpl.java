@@ -44,18 +44,14 @@ public class WeighingStationServiceImpl implements WeighingStationService {
 
     @Override
     public WeighingStation updateWeighingStation(long id, WeighingStationMapperModel model) {
-        Optional<WeighingStation> optionalWeighingStation = iWeighingStationDao.findById(id);
+        WeighingStation to = iWeighingStationDao.findById(id);
 
-        if (optionalWeighingStation.isPresent()) {
-            WeighingStation to = optionalWeighingStation.get();
-            to.setWeighingStationName(model.getWeighingStationName());
-            to.setAddress(model.getAddress());
-            to.setCustomerId(model.getCustomerId());
-            to.setStatus(model.getStatus());
+        to.setWeighingStationName(model.getWeighingStationName());
+        to.setAddress(model.getAddress());
+        to.setCustomerId(model.getCustomerId());
+        to.setStatus(model.getStatus());
 
-            return iWeighingStationDao.save(to);
-        }
-        return new WeighingStation();
+        return iWeighingStationDao.save(to);
     }
 
     @Override
@@ -85,8 +81,7 @@ public class WeighingStationServiceImpl implements WeighingStationService {
     @Override
     public WeighingStation getWeighingStation(long id) {
 
-        Optional<WeighingStation> optionalWeighingStation = iWeighingStationDao.findById(id);
-        return optionalWeighingStation.orElse(null);
+        return iWeighingStationDao.findById(id);
     }
 
     @Override
@@ -115,5 +110,19 @@ public class WeighingStationServiceImpl implements WeighingStationService {
                             weighingStation, WeighingStationMapperModel.class);
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void changeStatus(long id, WeighingStationMapperModel model) {
+        WeighingStation to = iWeighingStationDao.findById(id);
+        to.setStatus(model.getStatus());
+
+        iWeighingStationDao.save(to);
+    }
+
+    @Override
+    public List<WeighingStation> getWeighingStationByCustomerKey(String key) {
+        Customer customer = iCustomerDao. findCustomerByKey(key);
+        return iWeighingStationDao.findWeighingStationByCustomerId(customer.getId());
     }
 }

@@ -20,4 +20,7 @@ public interface IWeighingStationDao extends JpaRepository<WeighingStation,Long>
     void deleteAllByCustomerId(long customerId);
 
     boolean existsByWeighingStationCode(String weighingStationCode);
+
+    WeighingStation findById(long id);
+
 }

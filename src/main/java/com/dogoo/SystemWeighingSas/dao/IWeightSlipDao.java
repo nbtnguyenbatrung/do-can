@@ -1,6 +1,9 @@
 package com.dogoo.SystemWeighingSas.dao;
 
+import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.entity.WeightSlip;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -45,4 +48,7 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
 
     @Query("select ws from DG_WeightSlip ws where ws.action='delete' OR ws.action='update'" )
     List<WeightSlip> getAllWeightSlipAction();
+
+    Page<WeightSlip> findAllByDatabaseKey(String databaseKey , Pageable pageable);
+    long countByDatabaseKey(String databaseKey);
 }

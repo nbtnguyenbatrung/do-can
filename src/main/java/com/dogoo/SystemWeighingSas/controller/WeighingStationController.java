@@ -2,6 +2,7 @@ package com.dogoo.SystemWeighingSas.controller;
 
 import com.dogoo.SystemWeighingSas.common.CommonToken;
 import com.dogoo.SystemWeighingSas.entity.WeighingStation;
+import com.dogoo.SystemWeighingSas.model.AccountMapperModel;
 import com.dogoo.SystemWeighingSas.model.UserTokenModel;
 import com.dogoo.SystemWeighingSas.model.WeighingStationMapperModel;
 import com.dogoo.SystemWeighingSas.service.WeighingStationService;
@@ -125,6 +126,17 @@ public class WeighingStationController {
 
         } catch (Exception exception) {
             httpServletResponse.setStatus(400);
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
+    @PutMapping("/change-status/{id}")
+    public Response changeStatus(@PathVariable("id") long id,
+                                 @RequestBody WeighingStationMapperModel model) {
+        try {
+            weighingStationService.changeStatus(id, model);
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS);
+        } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
         }
     }

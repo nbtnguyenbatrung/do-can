@@ -8,4 +8,5 @@ public interface RoleService {
     void addRole(RoleMapperModel model) ;
     void updateRole(RoleMapperModel model);
     List<RoleMapperModel> getListRole(long accountId);
+
 }

@@ -22,4 +22,8 @@ public interface WeighingStationService {
 
     List<WeighingStationMapperModel> getWeighingStationByCustomerId(long customerId);
 
+    void changeStatus(long id , WeighingStationMapperModel model);
+
+    List<WeighingStation> getWeighingStationByCustomerKey(String key);
+
 }
