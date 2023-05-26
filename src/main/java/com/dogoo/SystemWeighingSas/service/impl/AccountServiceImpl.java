@@ -195,13 +195,15 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     private void updateListRole (long accountId, List<RoleMapperModel> list){
-        list.forEach(roleMapperModel -> {
-            if (roleMapperModel.getId() == 0){
-                roleMapperModel.setAccountId(accountId);
-                roleService.addRole(roleMapperModel);
-            }else{
-                roleService.updateRole(roleMapperModel);
-            }
-        });
+        if (list != null){
+            list.forEach(roleMapperModel -> {
+                if (roleMapperModel.getId() == 0){
+                    roleMapperModel.setAccountId(accountId);
+                    roleService.addRole(roleMapperModel);
+                }else{
+                    roleService.updateRole(roleMapperModel);
+                }
+            });
+        }
     }
 }
