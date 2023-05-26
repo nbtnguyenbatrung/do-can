@@ -17,8 +17,8 @@ public class WeighingStationValidator {
 
     public Response validatorExits (long id) {
 
-        Optional<WeighingStation> optionalWeighingStation = iWeighingStationDao.findById(id);
-        if (optionalWeighingStation.isPresent())
+        WeighingStation weighingStation = iWeighingStationDao.findById(id);
+        if (weighingStation != null)
             return null;
 
         return ResponseFactory.getClientErrorResponse("Không tồn tại Trạm cân");
