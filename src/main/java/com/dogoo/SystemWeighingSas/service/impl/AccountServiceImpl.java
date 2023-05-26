@@ -178,6 +178,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setScreenName(model.getScreenName());
         account.setPassword(passwordEncoder.encode(model.getPassword()));
         account.setStatus(StatusEnum.valueOf(model.getStatus()));
+        account.setRoleAll(model.getRoleAll());
         iAccountDao.save(account);
         updateListRole(accountId, model.getRoleList() );
     }
