@@ -94,7 +94,7 @@ public class PwdGenerator {
 
         String s1 = fullName.trim();
         int lastIndex1 = s1.lastIndexOf(" ");
-        List<String> list1 = Arrays.asList(s.split(" ", lastIndex1));
+        List<String> list1 = Arrays.asList(s1.split(" ", lastIndex1));
         String sc1 = list1.stream()
                 .map(s2 -> s2.substring(0,1).toLowerCase())
                 .collect(Collectors.joining(""));
