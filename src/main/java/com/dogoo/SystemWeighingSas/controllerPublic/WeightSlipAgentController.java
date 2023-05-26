@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/public/dogoo/weight-slip")
-public class WeightSlipController {
+public class WeightSlipAgentController {
 
     private final WeightSlipService weightSlipService;
 
-    public WeightSlipController(WeightSlipService weightSlipService) {
+    public WeightSlipAgentController(WeightSlipService weightSlipService) {
         this.weightSlipService = weightSlipService;
     }
 
