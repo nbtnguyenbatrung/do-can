@@ -195,6 +195,9 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public void changeRole(long accountId, AccountMapperModel model) {
+        Account account = iAccountDao.fetchAccountByAccountId(accountId);
+        account.setRoleAll(model.getRoleAll());
+        iAccountDao.save(account);
         updateListRole(accountId, model.getRoleList());
     }
 
