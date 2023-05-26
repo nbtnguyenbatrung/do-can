@@ -80,6 +80,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setChangePassword(Boolean.FALSE);
         account.setCreateDate(new Timestamp(System.currentTimeMillis()));
+        account.setKey(tokenModel.getKey());
         account = iAccountDao.save(account);
 
         addListRole(account.getAccountId(), accountMapperModel.getRoleList());
