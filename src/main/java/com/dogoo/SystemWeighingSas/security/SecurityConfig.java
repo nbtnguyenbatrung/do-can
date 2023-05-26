@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(
                         HttpMethod.GET, "/o/dogoo/**")
-                .hasAnyAuthority("admin", "adminUser")
+                .hasAnyAuthority("admin", "adminUser", "user")
                 .anyRequest()
                 .authenticated()
                 .and()
