@@ -29,4 +29,6 @@ public interface AccountService {
     void updateAccount(long accountId, AccountMapperModel model);
 
     void changeRole(long accountId, AccountMapperModel model);
+
+    String getScreenName(UserTokenModel model, String name);
 }

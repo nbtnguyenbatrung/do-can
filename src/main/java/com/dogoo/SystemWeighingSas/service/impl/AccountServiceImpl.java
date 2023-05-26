@@ -4,6 +4,7 @@ import com.dogoo.SystemWeighingSas.common.MailUtil;
 import com.dogoo.SystemWeighingSas.common.generalPassword.PwdGenerator;
 import com.dogoo.SystemWeighingSas.config.Constants;
 import com.dogoo.SystemWeighingSas.dao.IAccountDao;
+import com.dogoo.SystemWeighingSas.dao.ICustomerDao;
 import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.entity.Customer;
 import com.dogoo.SystemWeighingSas.enumEntity.RoleEnum;
@@ -41,18 +42,21 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final PwdGenerator pwdGenerator;
     private final MailUtil mailUtil;
     private final RoleService roleService;
+    private final ICustomerDao iCustomerDao;
     private static final String SUBJECT = "[Dogoo Can] - THƯ THÔNG TIN TÀI KHOẢN TRÊN DOGOO CAN";
 
     public AccountServiceImpl(IAccountDao iAccountDao,
                               PasswordEncoder passwordEncoder,
                               PwdGenerator pwdGenerator,
                               MailUtil mailUtil,
-                              RoleService roleService) {
+                              RoleService roleService,
+                              ICustomerDao iCustomerDao) {
         this.iAccountDao = iAccountDao;
         this.passwordEncoder = passwordEncoder;
         this.pwdGenerator = pwdGenerator;
         this.mailUtil = mailUtil;
         this.roleService = roleService;
+        this.iCustomerDao = iCustomerDao;
     }
 
     @Override
@@ -191,6 +195,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public void changeRole(long accountId, AccountMapperModel model) {
         updateListRole(accountId, model.getRoleList() );
+    }
+
+    @Override
+    public String getScreenName(UserTokenModel model, String name) {
+        Customer customer = iCustomerDao.findCustomerByKey(model.getKey());
+        return pwdGenerator.getScreeName(customer.getCustomerName(), name);
     }
 
     private void addListRole (long accountId, List<RoleMapperModel> list){

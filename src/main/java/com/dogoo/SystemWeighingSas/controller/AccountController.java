@@ -150,6 +150,24 @@ public class AccountController {
         }
     }
 
+    @GetMapping("/get-auto-code")
+    public Response getAutoCodeCustomer(@RequestParam(name = "name", defaultValue = "", required = false) String name,
+                                        HttpServletRequest request,
+                                        HttpServletResponse httpServletResponse) {
+        try {
+
+            if (name.equals(""))
+                return ResponseFactory.getSuccessResponse(Response.SUCCESS, "");
+
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS,
+                    accountService.getScreenName(getUserToken(request), name));
+
+        } catch (Exception exception) {
+            httpServletResponse.setStatus(400);
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
     private UserTokenModel getUserToken(HttpServletRequest request) {
         return commonToken.getUserToken(request);
     }
