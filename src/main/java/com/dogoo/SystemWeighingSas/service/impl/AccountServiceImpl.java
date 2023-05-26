@@ -75,7 +75,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public void createAccount(UserTokenModel tokenModel , AccountMapperModel accountMapperModel) {
+    public void createAccount(UserTokenModel tokenModel, AccountMapperModel accountMapperModel) {
         Account account = Constants.SERIALIZER.convertValue(accountMapperModel, Account.class);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setChangePassword(Boolean.FALSE);
@@ -118,7 +118,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Pageable pageable = PageRequest.of(page, 30, sort);
         Page<Account> accounts = iAccountDao.findAll(pageable);
         long total = iAccountDao.count();
-        if (!model.getKey().equals("")){
+        if (!model.getKey().equals("")) {
             accounts = iAccountDao.findAllCustomer(model.getKey(), pageable);
             total = iAccountDao.countByKey(model.getKey());
         }
@@ -169,10 +169,10 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
         Map<String, Object> model = new HashMap<>();
         model.put("name", customer.getCustomerName());
-        model.put("screenName", account.getScreenName() );
-        model.put("password", password );
+        model.put("screenName", account.getScreenName());
+        model.put("password", password);
         mailUtil.sendSimpleMail(customer.getEmail(),
-                SUBJECT , model );
+                SUBJECT, model);
 
     }
 
@@ -183,19 +183,19 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setScreenName(model.getScreenName());
         account.setPassword(passwordEncoder.encode(model.getPassword()));
 
-        if (model.getStatus() != null){
+        if (model.getStatus() != null) {
             account.setStatus(StatusEnum.valueOf(model.getStatus()));
         }
-        if (model.getRoleAll() != null){
+        if (model.getRoleAll() != null) {
             account.setRoleAll(model.getRoleAll());
         }
         iAccountDao.save(account);
-        updateListRole(accountId, model.getRoleList() );
+        updateListRole(accountId, model.getRoleList());
     }
 
     @Override
     public void changeRole(long accountId, AccountMapperModel model) {
-        updateListRole(accountId, model.getRoleList() );
+        updateListRole(accountId, model.getRoleList());
     }
 
     @Override
@@ -204,20 +204,22 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return pwdGenerator.getScreeName(customer.getCustomerName(), name);
     }
 
-    private void addListRole (long accountId, List<RoleMapperModel> list){
-        list.forEach(roleMapperModel -> {
-            roleMapperModel.setAccountId(accountId);
-            roleService.addRole(roleMapperModel);
-        });
+    private void addListRole(long accountId, List<RoleMapperModel> list) {
+        if (list != null) {
+            list.forEach(roleMapperModel -> {
+                roleMapperModel.setAccountId(accountId);
+                roleService.addRole(roleMapperModel);
+            });
+        }
     }
 
-    private void updateListRole (long accountId, List<RoleMapperModel> list){
-        if (list != null){
+    private void updateListRole(long accountId, List<RoleMapperModel> list) {
+        if (list != null) {
             list.forEach(roleMapperModel -> {
-                if (roleMapperModel.getId() == 0){
+                if (roleMapperModel.getId() == 0) {
                     roleMapperModel.setAccountId(accountId);
                     roleService.addRole(roleMapperModel);
-                }else{
+                } else {
                     roleService.updateRole(roleMapperModel);
                 }
             });
