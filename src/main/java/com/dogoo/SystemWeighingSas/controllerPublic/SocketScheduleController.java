@@ -10,14 +10,14 @@ import org.springframework.stereotype.Controller;
 
 
 @Controller
-public class SocketController {
+public class SocketScheduleController {
 
     private final AccountService accountService;
     private final SimpMessagingTemplate template;
     private final WeighingStationService weighingStationService;
-    public SocketController(AccountService accountService,
-                            SimpMessagingTemplate template,
-                            WeighingStationService weighingStationService) {
+    public SocketScheduleController(AccountService accountService,
+                                    SimpMessagingTemplate template,
+                                    WeighingStationService weighingStationService) {
         this.accountService = accountService;
         this.template = template;
         this.weighingStationService = weighingStationService;
