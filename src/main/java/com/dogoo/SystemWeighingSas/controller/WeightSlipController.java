@@ -21,12 +21,12 @@ public class WeightSlipController {
 
     @GetMapping("/get-list/{code}")
     public Response getListWeightSlip(@PathVariable("code") String code,
-                                      @RequestParam(name = "limit", defaultValue = "10", required = false) Integer limit,
+                                      @RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                       @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
                                       HttpServletRequest request) {
         try {
             return ResponseFactory.getSuccessResponse(Response.SUCCESS,
-                    weightSlipService.getWeightSlips(code, limit, page));
+                    weightSlipService.getWeightSlips(code, pageSize, page));
 
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());
