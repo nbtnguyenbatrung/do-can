@@ -61,14 +61,14 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
 
     @Query(value = "SELECT SUM(t.tareWeight) from DG_WeightSlip t where t.ngayCan BETWEEN :startDate AND :endDate " +
             " AND t.databaseKey = :databaseKey ")
-    long sumWeight(
+    Long sumWeight(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
             @Param("databaseKey") String databaseKey);
 
     @Query(value = "SELECT SUM(t.thanhTien) from DG_WeightSlip t where t.ngayCan BETWEEN :startDate AND :endDate " +
             " AND t.databaseKey = :databaseKey ")
-    long sumRevenue(
+    Long sumRevenue(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
             @Param("databaseKey") String databaseKey);

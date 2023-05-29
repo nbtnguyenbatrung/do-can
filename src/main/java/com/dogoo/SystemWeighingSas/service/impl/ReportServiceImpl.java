@@ -21,11 +21,17 @@ public class ReportServiceImpl implements ReportService {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime startDate = now.withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime endDate = now.withHour(23).withMinute(59).withSecond(59).withNano(0);
+
+        long bill = iWeightSlipDao.countNgayCan(startDate, endDate, weighingStationCode);
+        long netWeight = iWeightSlipDao.sumWeight(startDate, endDate, weighingStationCode);
+        long revenue = iWeightSlipDao.sumRevenue(startDate, endDate, weighingStationCode);
+        long customer = iWeightSlipDao.countKh(startDate, endDate, weighingStationCode);
+
         ReportModel model = new ReportModel();
-        model.setBill(iWeightSlipDao.countNgayCan(startDate, endDate, weighingStationCode));
-        model.setNetWeight(iWeightSlipDao.sumWeight(startDate, endDate, weighingStationCode));
-        model.setRevenue(iWeightSlipDao.sumRevenue(startDate, endDate, weighingStationCode));
-        model.setCustomer(iWeightSlipDao.countKh(startDate, endDate, weighingStationCode));
+        model.setBill(bill);
+        model.setNetWeight(netWeight);
+        model.setRevenue(revenue);
+        model.setCustomer(customer);
         return model;
     }
 
