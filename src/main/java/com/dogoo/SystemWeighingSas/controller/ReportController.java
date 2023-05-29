@@ -37,9 +37,9 @@ public class ReportController {
                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                                      @RequestParam(name = "endDate")
                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
-                                     @RequestParam(name = "startDateCompare")
+                                     @RequestParam(name = "startDateCompare", required = false)
                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateCompare,
-                                     @RequestParam(name = "endDateCompare")
+                                     @RequestParam(name = "endDateCompare", required = false)
                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateCompare) {
         try {
             return ResponseFactory.getSuccessResponse(Response.SUCCESS,
