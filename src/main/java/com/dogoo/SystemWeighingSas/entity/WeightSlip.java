@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -47,7 +48,9 @@ public class WeightSlip {
     private long tareWeight;
     @Column(name = "kl_hang")
     private long hang;
-    private Timestamp ngayCan;
+//    private Timestamp ngayCan;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime ngayCan;
     private Timestamp gioCoTai;
     private Timestamp gioKTai;
     

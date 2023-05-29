@@ -1,6 +1,5 @@
 package com.dogoo.SystemWeighingSas.dao;
 
-import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
@@ -51,4 +51,32 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
 
     Page<WeightSlip> findAllByDatabaseKey(String databaseKey , Pageable pageable);
     long countByDatabaseKey(String databaseKey);
+
+    @Query(value = "SELECT COUNT(t) from DG_WeightSlip t where t.ngayCan BETWEEN :startDate AND :endDate " +
+            " AND t.databaseKey = :databaseKey ")
+    long countNgayCan(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("databaseKey") String databaseKey);
+
+    @Query(value = "SELECT SUM(t.tareWeight) from DG_WeightSlip t where t.ngayCan BETWEEN :startDate AND :endDate " +
+            " AND t.databaseKey = :databaseKey ")
+    long sumWeight(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("databaseKey") String databaseKey);
+
+    @Query(value = "SELECT SUM(t.thanhTien) from DG_WeightSlip t where t.ngayCan BETWEEN :startDate AND :endDate " +
+            " AND t.databaseKey = :databaseKey ")
+    long sumRevenue(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("databaseKey") String databaseKey);
+
+    @Query(value = "SELECT COUNT(DISTINCT t.maKH) from DG_WeightSlip t where t.ngayCan BETWEEN :startDate AND :endDate " +
+            " AND t.databaseKey = :databaseKey ")
+    long countKh(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("databaseKey") String databaseKey);
 }

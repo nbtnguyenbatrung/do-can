@@ -1,6 +1,5 @@
 package com.dogoo.SystemWeighingSas.model;
 
-import com.dogoo.SystemWeighingSas.entity.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

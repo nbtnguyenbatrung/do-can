@@ -1,6 +1,7 @@
 package com.dogoo.SystemWeighingSas.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class WeightSlipEntry {
 
@@ -13,7 +14,7 @@ public class WeightSlipEntry {
     private long coTai;
     private long tareWeight;
     private long hang;
-    private Timestamp ngayCan;
+    private LocalDateTime ngayCan;
     private Timestamp gioCoTai;
     private Timestamp gioKTai;
     private String ghiChu;
@@ -102,11 +103,11 @@ public class WeightSlipEntry {
         this.hang = hang;
     }
 
-    public Timestamp getNgayCan() {
+    public LocalDateTime getNgayCan() {
         return ngayCan;
     }
 
-    public void setNgayCan(Timestamp ngayCan) {
+    public void setNgayCan(LocalDateTime ngayCan) {
         this.ngayCan = ngayCan;
     }
 
