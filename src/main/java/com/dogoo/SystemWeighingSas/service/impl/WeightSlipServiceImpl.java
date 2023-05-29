@@ -105,7 +105,7 @@ public class WeightSlipServiceImpl implements WeightSlipService {
     public ResultResponse<WeightSlip> getWeightSlips(String weighingStationCode,
                                                      Integer limit,
                                                      Integer page) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
+        Sort sort = Sort.by(Sort.Direction.DESC, "ngayCan");
         Pageable pageable = PageRequest.of(page, 30, sort);
         Page<WeightSlip> weightSlips = iWeightSlipDao
                 .findAllByDatabaseKey( weighingStationCode, pageable);
