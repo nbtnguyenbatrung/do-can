@@ -106,7 +106,7 @@ public class WeightSlipServiceImpl implements WeightSlipService {
                                                      Integer limit,
                                                      Integer page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "ngayCan");
-        Pageable pageable = PageRequest.of(page, 30, sort);
+        Pageable pageable = PageRequest.of(page, limit, sort);
         Page<WeightSlip> weightSlips = iWeightSlipDao
                 .findAllByDatabaseKey( weighingStationCode, pageable);
         long total = iWeightSlipDao.countByDatabaseKey(weighingStationCode);
