@@ -1,5 +1,6 @@
 package com.dogoo.SystemWeighingSas.controller;
 
+import com.dogoo.SystemWeighingSas.enumEntity.TypeEnum;
 import com.dogoo.SystemWeighingSas.service.ReportService;
 import com.dogoo.SystemWeighingSas.unitity.response.Response;
 import com.dogoo.SystemWeighingSas.unitity.response.ResponseFactory;
@@ -44,6 +45,26 @@ public class ReportController {
         try {
             return ResponseFactory.getSuccessResponse(Response.SUCCESS,
                     reportService.getReportCompare(weighingStationCode, startDate,
+                            endDate, startDateCompare, endDateCompare));
+        } catch (Exception exception) {
+            return ResponseFactory.getClientErrorResponse(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/chart")
+    public Response getReportChart(@RequestParam(name = "weighingStationCode") String weighingStationCode,
+                                   @RequestParam(name = "type") TypeEnum type,
+                                   @RequestParam(name = "startDate")
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                   @RequestParam(name = "endDate")
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                   @RequestParam(name = "startDateCompare", required = false)
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateCompare,
+                                   @RequestParam(name = "endDateCompare", required = false)
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateCompare) {
+        try {
+            return ResponseFactory.getSuccessResponse(Response.SUCCESS,
+                    reportService.getChart(weighingStationCode, type.name(), startDate,
                             endDate, startDateCompare, endDateCompare));
         } catch (Exception exception) {
             return ResponseFactory.getClientErrorResponse(exception.getMessage());

@@ -1,10 +1,12 @@
 package com.dogoo.SystemWeighingSas.service;
 
+import com.dogoo.SystemWeighingSas.model.ChartMapperModel;
 import com.dogoo.SystemWeighingSas.model.ReportCompareModel;
 import com.dogoo.SystemWeighingSas.model.ReportModel;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 public interface ReportService {
 
@@ -14,4 +16,11 @@ public interface ReportService {
                                         LocalDateTime endDate,
                                         LocalDateTime startDateCompare,
                                         LocalDateTime endDateCompare);
+
+    List<ChartMapperModel> getChart(String weighingStationCode,
+                                    String type ,
+                                    LocalDateTime startDate ,
+                                    LocalDateTime endDate,
+                                    LocalDateTime startDateCompare,
+                                    LocalDateTime endDateCompare);
 }
