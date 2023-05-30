@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -81,30 +82,30 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
             @Param("endDate") LocalDateTime endDate,
             @Param("databaseKey") String databaseKey);
 
-    @Query("select new com.dogoo.SystemWeighingSas.model.WeightSlipCountSum(p.ngayCan , COUNT(p.ngayCan))"
-            + "from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate " +
+    @Query("select p.ngayCan as ngayCan , COUNT(p.ngayCan) as value "
+            + " from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate " +
             " AND p.databaseKey = :databaseKey "
-            + "group by p.ngayCan "
-            + " ORDER BY c.ngayCan asc")
-    List<WeightSlipCountSum> groupBillByNgayCan(@Param("startDate") LocalDateTime startDate,
+            + " group by p.ngayCan "
+            + " ORDER BY p.ngayCan asc")
+    List<Object[]> groupBillByNgayCan(@Param("startDate") LocalDateTime startDate,
                                                 @Param("endDate") LocalDateTime endDate,
                                                 @Param("databaseKey") String databaseKey);
 
-    @Query("select new com.dogoo.SystemWeighingSas.model.WeightSlipCountSum(p.ngayCan , SUM(p.hang))"
-            + "from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate" +
+    @Query("select p.ngayCan as ngayCan , SUM(p.hang) as value "
+            + " from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate" +
             " AND p.databaseKey = :databaseKey "
-            + "group by p.ngayCan "
-            + " ORDER BY c.ngayCan asc")
-    List<WeightSlipCountSum> groupNetWeightByNgayCan(@Param("startDate") LocalDateTime startDate,
+            + " group by p.ngayCan "
+            + " ORDER BY p.ngayCan asc")
+    List<Object[]> groupNetWeightByNgayCan(@Param("startDate") LocalDateTime startDate,
                                              @Param("endDate") LocalDateTime endDate,
                                              @Param("databaseKey") String databaseKey);
 
-    @Query("select new com.dogoo.SystemWeighingSas.model.WeightSlipCountSum(p.ngayCan , SUM(p.thanhTien))"
-            + "from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate" +
+    @Query("select p.ngayCan as ngayCan , SUM(p.thanhTien) as value "
+            + " from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate" +
             " AND p.databaseKey = :databaseKey "
-            + "group by p.ngayCan "
-            + " ORDER BY c.ngayCan asc")
-    List<WeightSlipCountSum> groupRevenueByNgayCan(@Param("startDate") LocalDateTime startDate,
+            + " group by p.ngayCan "
+            + " ORDER BY p.ngayCan asc")
+    List<Object[]> groupRevenueByNgayCan(@Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate,
                                            @Param("databaseKey") String databaseKey);
 }

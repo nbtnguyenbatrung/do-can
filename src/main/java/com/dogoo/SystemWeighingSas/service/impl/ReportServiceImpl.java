@@ -130,24 +130,24 @@ public class ReportServiceImpl implements ReportService {
                               LocalDateTime startDateCompare,
                               LocalDateTime endDateCompare,
                               List<ChartMapperModel> list) {
-        List<WeightSlipCountSum> weightSlipList = iWeightSlipDao
+        List<Object[]> weightSlipList = iWeightSlipDao
                 .groupBillByNgayCan(startDate, endDate, weighingStationCode);
-        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
-        ChartMapperModel to = new ChartMapperModel();
-        to.setName("1");
-        to.setList(chartMapperModelList);
-        list.add(to);
-
-        if (startDateCompare != null && endDateCompare != null){
-            List<WeightSlipCountSum> weightSlipList2 = iWeightSlipDao
-                    .groupBillByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
-            List<DataMapperModel> chartMapperModelList2 = mapper
-                    .mapDataFromWeightSlip(weightSlipList2);
-            ChartMapperModel to2 = new ChartMapperModel();
-            to2.setName("2");
-            to2.setList(chartMapperModelList2);
-            list.add(to2);
-        }
+//        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
+//        ChartMapperModel to = new ChartMapperModel();
+//        to.setName("1");
+//        to.setList(chartMapperModelList);
+//        list.add(to);
+//
+//        if (startDateCompare != null && endDateCompare != null){
+//            List<WeightSlipCountSum> weightSlipList2 = iWeightSlipDao
+//                    .groupBillByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
+//            List<DataMapperModel> chartMapperModelList2 = mapper
+//                    .mapDataFromWeightSlip(weightSlipList2);
+//            ChartMapperModel to2 = new ChartMapperModel();
+//            to2.setName("2");
+//            to2.setList(chartMapperModelList2);
+//            list.add(to2);
+//        }
 
     }
 
@@ -158,24 +158,24 @@ public class ReportServiceImpl implements ReportService {
                                    LocalDateTime endDateCompare,
                                    List<ChartMapperModel> list) {
 
-        List<WeightSlipCountSum> weightSlipList = iWeightSlipDao
+        List<Object[]> weightSlipList = iWeightSlipDao
                 .groupNetWeightByNgayCan(startDate, endDate, weighingStationCode);
-        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
-        ChartMapperModel to = new ChartMapperModel();
-        to.setName("1");
-        to.setList(chartMapperModelList);
-        list.add(to);
-
-        if (startDateCompare != null && endDateCompare != null){
-            List<WeightSlipCountSum> weightSlipList2 = iWeightSlipDao
-                    .groupNetWeightByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
-            List<DataMapperModel> chartMapperModelList2 = mapper
-                    .mapDataFromWeightSlip(weightSlipList2);
-            ChartMapperModel to2 = new ChartMapperModel();
-            to2.setName("2");
-            to2.setList(chartMapperModelList2);
-            list.add(to2);
-        }
+//        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
+//        ChartMapperModel to = new ChartMapperModel();
+//        to.setName("1");
+//        to.setList(chartMapperModelList);
+//        list.add(to);
+//
+//        if (startDateCompare != null && endDateCompare != null){
+//            List<WeightSlipCountSum> weightSlipList2 = iWeightSlipDao
+//                    .groupNetWeightByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
+//            List<DataMapperModel> chartMapperModelList2 = mapper
+//                    .mapDataFromWeightSlip(weightSlipList2);
+//            ChartMapperModel to2 = new ChartMapperModel();
+//            to2.setName("2");
+//            to2.setList(chartMapperModelList2);
+//            list.add(to2);
+//        }
     }
 
     private void getChartRevenue(String weighingStationCode,
@@ -185,24 +185,24 @@ public class ReportServiceImpl implements ReportService {
                                  LocalDateTime endDateCompare,
                                  List<ChartMapperModel> list) {
 
-        List<WeightSlipCountSum> weightSlipList = iWeightSlipDao
+        List<Object[]> weightSlipList = iWeightSlipDao
                 .groupRevenueByNgayCan(startDate, endDate, weighingStationCode);
-        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
-        ChartMapperModel to = new ChartMapperModel();
-        to.setName("1");
-        to.setList(chartMapperModelList);
-        list.add(to);
-
-        if (startDateCompare != null && endDateCompare != null){
-            List<WeightSlipCountSum> weightSlipList2 = iWeightSlipDao
-                    .groupRevenueByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
-            List<DataMapperModel> chartMapperModelList2 = mapper
-                    .mapDataFromWeightSlip(weightSlipList2);
-            ChartMapperModel to2 = new ChartMapperModel();
-            to2.setName("2");
-            to2.setList(chartMapperModelList2);
-            list.add(to2);
-        }
+//        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
+//        ChartMapperModel to = new ChartMapperModel();
+//        to.setName("1");
+//        to.setList(chartMapperModelList);
+//        list.add(to);
+//
+//        if (startDateCompare != null && endDateCompare != null){
+//            List<WeightSlipCountSum> weightSlipList2 = iWeightSlipDao
+//                    .groupRevenueByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
+//            List<DataMapperModel> chartMapperModelList2 = mapper
+//                    .mapDataFromWeightSlip(weightSlipList2);
+//            ChartMapperModel to2 = new ChartMapperModel();
+//            to2.setName("2");
+//            to2.setList(chartMapperModelList2);
+//            list.add(to2);
+//        }
 
     }
 }
