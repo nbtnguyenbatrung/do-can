@@ -1,28 +1,24 @@
 package com.dogoo.SystemWeighingSas.mapper;
 
-import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import com.dogoo.SystemWeighingSas.model.DataMapperModel;
-import com.dogoo.SystemWeighingSas.model.WeightSlipCountSum;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ChartMapper {
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    public List<DataMapperModel> mapDataFromWeightSlip(List<WeightSlipCountSum> list){
-        return list .stream().map(this::mapperModelFromEntry)
+    public List<DataMapperModel> mapDataFromWeightSlip(List<Object[]> list){
+        return list.stream().map(this::mapperModelFromEntry)
                 .collect(Collectors.toList());
     }
 
-    public DataMapperModel mapperModelFromEntry(WeightSlipCountSum from){
+    public DataMapperModel mapperModelFromEntry(Object[] objects){
         DataMapperModel to = new DataMapperModel();
-        to.setXAxis(from.getNgayCan().format(formatter));
-        to.setValue(from.getValue());
+        String s = objects[0].toString();
+        to.setXAxis(s.substring(0, s.indexOf("T")));
+        to.setValue( Double.parseDouble(objects[1].toString()));
         return to;
     }
 }
