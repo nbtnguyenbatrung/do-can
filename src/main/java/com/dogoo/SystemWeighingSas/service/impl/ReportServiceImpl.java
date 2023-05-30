@@ -55,7 +55,7 @@ public class ReportServiceImpl implements ReportService {
 
         if (startDateCompare != null && endDateCompare != null){
             startDateCompare = startDateCompare.withHour(0).withMinute(0).withSecond(0).withNano(0);
-            endDateCompare = endDate.withHour(23).withMinute(59).withSecond(59).withNano(0);
+            endDateCompare = endDateCompare.withHour(23).withMinute(59).withSecond(59).withNano(0);
 
             long billTemp = iWeightSlipDao.countNgayCan(startDateCompare, endDateCompare, weighingStationCode);
             long netWeightTemp = iWeightSlipDao.sumWeight(startDateCompare, endDateCompare, weighingStationCode);
