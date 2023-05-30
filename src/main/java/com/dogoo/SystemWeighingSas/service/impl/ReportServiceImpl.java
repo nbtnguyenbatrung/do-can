@@ -49,26 +49,26 @@ public class ReportServiceImpl implements ReportService {
         Long netWeight = iWeightSlipDao.sumWeight(startDate, endDate, weighingStationCode);
         Long revenue = iWeightSlipDao.sumRevenue(startDate, endDate, weighingStationCode);
 
-        long billPercent = 0;
-        long netWeightPercent = 0;
-        long revenuePercent = 0;
+        double billPercent = 0;
+        double netWeightPercent = 0;
+        double revenuePercent = 0;
 
         if (startDateCompare != null && endDateCompare != null){
             startDateCompare = startDateCompare.withHour(0).withMinute(0).withSecond(0).withNano(0);
             endDateCompare = endDateCompare.withHour(23).withMinute(59).withSecond(59).withNano(0);
 
             long billTemp = iWeightSlipDao.countNgayCan(startDateCompare, endDateCompare, weighingStationCode);
-            long netWeightTemp = iWeightSlipDao.sumWeight(startDateCompare, endDateCompare, weighingStationCode);
-            long revenueTemp = iWeightSlipDao.sumRevenue(startDateCompare, endDateCompare, weighingStationCode);
+            Long netWeightTemp = iWeightSlipDao.sumWeight(startDateCompare, endDateCompare, weighingStationCode);
+            Long revenueTemp = iWeightSlipDao.sumRevenue(startDateCompare, endDateCompare, weighingStationCode);
 
             if (billTemp != 0){
-                billPercent = ((bill / billTemp) - 1) * 100 ;
+                billPercent = (( (double) bill / billTemp) - 1) * 100 ;
             }
-            if (netWeightTemp != 0 && netWeight != null){
-                netWeightPercent = ((netWeight / netWeightTemp) - 1) * 100 ;
+            if (netWeightTemp != null && netWeightTemp != 0 && netWeight != null){
+                netWeightPercent = (( (double) netWeight / netWeightTemp) - 1) * 100 ;
             }
-            if (revenueTemp != 0 && revenue != null){
-                revenuePercent = ((revenue / revenueTemp) - 1) * 100 ;
+            if (revenueTemp != null && revenueTemp != 0 && revenue != null){
+                revenuePercent = (( (double) revenue / revenueTemp) - 1) * 100 ;
             }
         }
         ReportCompareModel model = new ReportCompareModel();
@@ -76,9 +76,9 @@ public class ReportServiceImpl implements ReportService {
         model.setNetWeight(netWeight != null ? netWeight : 0);
         model.setRevenue(revenue != null ? revenue : 0);
 
-        model.setBillPercent(billPercent);
-        model.setNetWeightPercent(netWeightPercent);
-        model.setRevenuePercent(revenuePercent);
+        model.setBillPercent((long) billPercent);
+        model.setNetWeightPercent((long) netWeightPercent);
+        model.setRevenuePercent((long) revenuePercent);
         return model;
     }
 }
