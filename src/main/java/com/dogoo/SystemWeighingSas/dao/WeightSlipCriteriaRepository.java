@@ -62,7 +62,8 @@ public class WeightSlipCriteriaRepository {
             );
         }
 
-        if (Objects.nonNull(weightSlipCriteria.getSearch())){
+        if (Objects.nonNull(weightSlipCriteria.getSearch()) &&
+                !weightSlipCriteria.getSearch().equals("") ){
             Predicate predicateKhachHang
                     = criteriaBuilder.like(weightSlipRoot.get("khachHang"),
                     '%' + weightSlipCriteria.getSearch() + '%');
