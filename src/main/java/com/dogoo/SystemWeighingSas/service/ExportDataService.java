@@ -1,6 +1,5 @@
 package com.dogoo.SystemWeighingSas.service;
 
-import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ExportDataService {
 
@@ -67,15 +67,15 @@ public class ExportDataService {
     }
 
     private void writeDataLines() {
-        int rowCount = 1;
+        AtomicInteger rowCount = new AtomicInteger(1);
 
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
         font.setFontHeight(14);
         style.setFont(font);
 
-        for (WeightSlip user : listAccounts) {
-            Row row = sheet.createRow(rowCount++);
+        listAccounts.forEach(user -> {
+            Row row = sheet.createRow(rowCount.getAndIncrement());
             int columnCount = 0;
 
             createCell(row, columnCount++, user.getMaPhieu(), style);
@@ -89,8 +89,7 @@ public class ExportDataService {
             createCell(row, columnCount++,
                     user.getNgayCan().toLocalDateTime().format(formatterDate), style);
             createCell(row, columnCount++, user.getThanhTien(), style);
-
-        }
+        });
     }
 
     public void export(HttpServletResponse response) throws IOException {

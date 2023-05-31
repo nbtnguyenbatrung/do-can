@@ -137,7 +137,7 @@ public class WeightSlipCriteriaRepository {
 
     private void setOrder(CriteriaQuery<WeightSlip> criteriaQuery,
                           Root<WeightSlip> weightSlipRoot) {
-        criteriaQuery.orderBy(criteriaBuilder.desc( weightSlipRoot.get("ngayCan")));
+        criteriaQuery.orderBy(criteriaBuilder.desc(weightSlipRoot.get("ngayCan")));
     }
 
     private long getEmployeesCount(Predicate predicate) {
