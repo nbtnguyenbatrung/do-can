@@ -65,10 +65,10 @@ public class WeightSlipCriteriaRepository {
         if (Objects.nonNull(weightSlipCriteria.getSearch()) &&
                 !weightSlipCriteria.getSearch().equals("") ){
             Predicate predicateKhachHang
-                    = criteriaBuilder.like(weightSlipRoot.get("khachHang"),
-                    '%' + weightSlipCriteria.getSearch() + '%');
+                    = criteriaBuilder.like( criteriaBuilder.upper(weightSlipRoot.get("khachHang")),
+                    '%' + weightSlipCriteria.getSearch().toUpperCase() + '%');
             Predicate predicateTenHang
-                    = criteriaBuilder.like(weightSlipRoot.get("tenHang"),
+                    = criteriaBuilder.like(criteriaBuilder.upper(weightSlipRoot.get("tenHang")),
                     '%' + weightSlipCriteria.getSearch() + '%');
             predicates.add(criteriaBuilder.or(predicateTenHang, predicateKhachHang));
         }
