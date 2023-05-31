@@ -74,33 +74,36 @@ public class WeightSlipCriteriaRepository {
 
         if(Objects.nonNull(weightSlipCriteria.getSoXe())){
             List<Predicate> list = new ArrayList<>();
-            weightSlipCriteria.getSoXe().forEach(s -> {
+            weightSlipCriteria.getSoXe().stream().filter(s -> !s.equals("")).forEach(s -> {
                 Predicate predicateForGradeA
                         = criteriaBuilder.equal(weightSlipRoot.get("soXe"), s);
                 list.add(predicateForGradeA);
             });
 
-            predicates.add(criteriaBuilder.or(list.toArray(new Predicate[0])));
+            if (!list.isEmpty())
+                predicates.add(criteriaBuilder.or(list.toArray(new Predicate[0])));
         }
         if(Objects.nonNull(weightSlipCriteria.getTenHang())){
             List<Predicate> list = new ArrayList<>();
-            weightSlipCriteria.getSoXe().forEach(s -> {
+            weightSlipCriteria.getSoXe().stream().filter(s -> !s.equals("")).forEach(s -> {
                 Predicate predicateForGradeA
                         = criteriaBuilder.equal(weightSlipRoot.get("tenHang"), s);
                 list.add(predicateForGradeA);
             });
 
-            predicates.add(criteriaBuilder.or(list.toArray(new Predicate[0])));
+            if (list.isEmpty())
+                predicates.add(criteriaBuilder.or(list.toArray(new Predicate[0])));
         }
         if(Objects.nonNull(weightSlipCriteria.getKhachHang())){
             List<Predicate> list = new ArrayList<>();
-            weightSlipCriteria.getSoXe().forEach(s -> {
+            weightSlipCriteria.getSoXe().stream().filter(s -> !s.equals("")).forEach(s -> {
                 Predicate predicateForGradeA
                         = criteriaBuilder.equal(weightSlipRoot.get("khachHang"), s);
                 list.add(predicateForGradeA);
             });
 
-            predicates.add(criteriaBuilder.or(list.toArray(new Predicate[0])));
+            if (list.isEmpty())
+                predicates.add(criteriaBuilder.or(list.toArray(new Predicate[0])));
         }
 
         if (weightSlipCriteria.getStartDate() != null && weightSlipCriteria.getEndDate() != null){
