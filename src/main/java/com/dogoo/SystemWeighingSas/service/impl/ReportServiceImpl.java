@@ -1,15 +1,14 @@
 package com.dogoo.SystemWeighingSas.service.impl;
 
 import com.dogoo.SystemWeighingSas.dao.IWeightSlipDao;
+import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import com.dogoo.SystemWeighingSas.mapper.ChartMapper;
-import com.dogoo.SystemWeighingSas.model.ChartMapperModel;
-import com.dogoo.SystemWeighingSas.model.DataMapperModel;
-import com.dogoo.SystemWeighingSas.model.ReportCompareModel;
-import com.dogoo.SystemWeighingSas.model.ReportModel;
+import com.dogoo.SystemWeighingSas.model.*;
 import com.dogoo.SystemWeighingSas.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +28,14 @@ public class ReportServiceImpl implements ReportService {
         LocalDateTime startDate = now.withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime endDate = now.withHour(23).withMinute(59).withSecond(59).withNano(0);
 
-        long bill = iWeightSlipDao.countNgayCan(startDate, endDate, weighingStationCode);
-        Long netWeight = iWeightSlipDao.sumWeight(startDate, endDate, weighingStationCode);
-        Long revenue = iWeightSlipDao.sumRevenue(startDate, endDate, weighingStationCode);
-        long customer = iWeightSlipDao.countKh(startDate, endDate, weighingStationCode);
+        long bill = iWeightSlipDao.countNgayCan(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
+        Long netWeight = iWeightSlipDao.sumWeight(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
+        Long revenue = iWeightSlipDao.sumRevenue(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
+        long customer = iWeightSlipDao.countKh(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
 
         ReportModel model = new ReportModel();
         model.setBill(bill);
@@ -52,9 +55,12 @@ public class ReportServiceImpl implements ReportService {
         startDate = startDate.withHour(0).withMinute(0).withSecond(0).withNano(0);
         endDate = endDate.withHour(23).withMinute(59).withSecond(59).withNano(0);
 
-        long bill = iWeightSlipDao.countNgayCan(startDate, endDate, weighingStationCode);
-        Long netWeight = iWeightSlipDao.sumWeight(startDate, endDate, weighingStationCode);
-        Long revenue = iWeightSlipDao.sumRevenue(startDate, endDate, weighingStationCode);
+        long bill = iWeightSlipDao.countNgayCan(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
+        Long netWeight = iWeightSlipDao.sumWeight(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
+        Long revenue = iWeightSlipDao.sumRevenue(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
 
         double billPercent = 0;
         double netWeightPercent = 0;
@@ -64,9 +70,12 @@ public class ReportServiceImpl implements ReportService {
             startDateCompare = startDateCompare.withHour(0).withMinute(0).withSecond(0).withNano(0);
             endDateCompare = endDateCompare.withHour(23).withMinute(59).withSecond(59).withNano(0);
 
-            long billTemp = iWeightSlipDao.countNgayCan(startDateCompare, endDateCompare, weighingStationCode);
-            Long netWeightTemp = iWeightSlipDao.sumWeight(startDateCompare, endDateCompare, weighingStationCode);
-            Long revenueTemp = iWeightSlipDao.sumRevenue(startDateCompare, endDateCompare, weighingStationCode);
+            long billTemp = iWeightSlipDao.countNgayCan(Timestamp.valueOf(startDateCompare), 
+                    Timestamp.valueOf(endDateCompare), weighingStationCode);
+            Long netWeightTemp = iWeightSlipDao.sumWeight(Timestamp.valueOf(startDateCompare), 
+                    Timestamp.valueOf(endDateCompare), weighingStationCode);
+            Long revenueTemp = iWeightSlipDao.sumRevenue(Timestamp.valueOf(startDateCompare), 
+                    Timestamp.valueOf(endDateCompare), weighingStationCode);
 
             if (billTemp != 0) {
                 billPercent = (((double) bill / billTemp) - 1) * 100;
@@ -112,11 +121,11 @@ public class ReportServiceImpl implements ReportService {
                         startDateCompare, endDateCompare, list);
                 break;
             case "netWeight":
-                getChartNetWeight(weighingStationCode, startDate, endDate,
+                getChartNetWeight(weighingStationCode, startDate,endDate,
                         startDateCompare, endDateCompare, list);
                 break;
             case "revenue":
-                getChartRevenue(weighingStationCode, startDate, endDate,
+                getChartRevenue(weighingStationCode,startDate,endDate,
                         startDateCompare, endDateCompare, list);
                 break;
             default:
@@ -133,7 +142,8 @@ public class ReportServiceImpl implements ReportService {
                               LocalDateTime endDateCompare,
                               List<ChartMapperModel> list) {
         List<Object[]> weightSlipList = iWeightSlipDao
-                .groupBillByNgayCan(startDate, endDate, weighingStationCode);
+                .groupBillByNgayCan(Timestamp.valueOf(startDate),
+                        Timestamp.valueOf(endDate), weighingStationCode);
         List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
         ChartMapperModel to = new ChartMapperModel();
         to.setName("1");
@@ -142,7 +152,8 @@ public class ReportServiceImpl implements ReportService {
 
         if (startDateCompare != null && endDateCompare != null){
             List<Object[]> weightSlipList2 = iWeightSlipDao
-                    .groupBillByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
+                    .groupBillByNgayCan(Timestamp.valueOf(startDateCompare),
+                            Timestamp.valueOf(endDateCompare), weighingStationCode);
             List<DataMapperModel> chartMapperModelList2 = mapper
                     .mapDataFromWeightSlip(weightSlipList2);
             ChartMapperModel to2 = new ChartMapperModel();
@@ -161,7 +172,8 @@ public class ReportServiceImpl implements ReportService {
                                    List<ChartMapperModel> list) {
 
         List<Object[]> weightSlipList = iWeightSlipDao
-                .groupNetWeightByNgayCan(startDate, endDate, weighingStationCode);
+                .groupNetWeightByNgayCan(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
         List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
         ChartMapperModel to = new ChartMapperModel();
         to.setName("1");
@@ -170,7 +182,8 @@ public class ReportServiceImpl implements ReportService {
 
         if (startDateCompare != null && endDateCompare != null){
             List<Object[]> weightSlipList2 = iWeightSlipDao
-                    .groupNetWeightByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
+                    .groupNetWeightByNgayCan(Timestamp.valueOf(startDateCompare), 
+                    Timestamp.valueOf(endDateCompare), weighingStationCode);
             List<DataMapperModel> chartMapperModelList2 = mapper
                     .mapDataFromWeightSlip(weightSlipList2);
             ChartMapperModel to2 = new ChartMapperModel();
@@ -188,7 +201,8 @@ public class ReportServiceImpl implements ReportService {
                                  List<ChartMapperModel> list) {
 
         List<Object[]> weightSlipList = iWeightSlipDao
-                .groupRevenueByNgayCan(startDate, endDate, weighingStationCode);
+                .groupRevenueByNgayCan(Timestamp.valueOf(startDate),
+                Timestamp.valueOf(endDate), weighingStationCode);
         List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
         ChartMapperModel to = new ChartMapperModel();
         to.setName("1");
@@ -197,7 +211,8 @@ public class ReportServiceImpl implements ReportService {
 
         if (startDateCompare != null && endDateCompare != null){
             List<Object[]> weightSlipList2 = iWeightSlipDao
-                    .groupRevenueByNgayCan(startDateCompare, endDateCompare, weighingStationCode);
+                    .groupRevenueByNgayCan(Timestamp.valueOf(startDateCompare), 
+                    Timestamp.valueOf(endDateCompare), weighingStationCode);
             List<DataMapperModel> chartMapperModelList2 = mapper
                     .mapDataFromWeightSlip(weightSlipList2);
             ChartMapperModel to2 = new ChartMapperModel();

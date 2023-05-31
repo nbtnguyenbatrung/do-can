@@ -17,7 +17,7 @@ public class ChartMapper {
     public DataMapperModel mapperModelFromEntry(Object[] objects){
         DataMapperModel to = new DataMapperModel();
         String s = objects[0].toString();
-        to.setXAxis(s.substring(0, s.indexOf("T")));
+        to.setXAxis(s.substring(0, s.indexOf(" ")));
         to.setValue( Double.parseDouble(objects[1].toString()));
         return to;
     }

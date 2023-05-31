@@ -65,7 +65,7 @@ public class JobCompareUpdate implements Callable<List<WeightSlip>> {
                     to.setCoTai(model.getCoTai());
                     to.setTareWeight(model.getTareWeight());
                     to.setHang(model.getHang());
-                    to.setNgayCan(model.getNgayCan());
+//                    to.setNgayCan(model.getNgayCan());
                     to.setGioCoTai(model.getGioCoTai());
                     to.setGioKTai(model.getGioKTai());
                     to.setGhiChu(model.getGhiChu());

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -38,7 +39,7 @@ public class WeightSlipMapperModel {
     @JsonProperty("hang")
     private long hang;
 
-    private LocalDateTime ngayCan;
+    private Timestamp ngayCan;
     private Timestamp gioCoTai;
     private Timestamp gioKTai;
     private String ghiChu;

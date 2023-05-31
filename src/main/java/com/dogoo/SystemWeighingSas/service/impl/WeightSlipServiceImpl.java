@@ -2,9 +2,10 @@ package com.dogoo.SystemWeighingSas.service.impl;
 
 import com.dogoo.SystemWeighingSas.config.Constants;
 import com.dogoo.SystemWeighingSas.dao.IWeightSlipDao;
-import com.dogoo.SystemWeighingSas.entity.Account;
+import com.dogoo.SystemWeighingSas.dao.WeightSlipCriteriaRepository;
 import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import com.dogoo.SystemWeighingSas.mapper.WeightMapper;
+import com.dogoo.SystemWeighingSas.model.WeightSlipCriteria;
 import com.dogoo.SystemWeighingSas.model.WeightSlipMapperModel;
 import com.dogoo.SystemWeighingSas.service.WeightSlipService;
 import com.dogoo.SystemWeighingSas.thread.JobCompare;
@@ -30,10 +31,14 @@ public class WeightSlipServiceImpl implements WeightSlipService {
     private final IWeightSlipDao iWeightSlipDao;
     private final ExecutorService executor;
     private final WeightMapper mapper;
+    private final WeightSlipCriteriaRepository weightSlipCriteriaRepository;
 
-    public WeightSlipServiceImpl(IWeightSlipDao iWeightSlipDao, WeightMapper mapper) {
+    public WeightSlipServiceImpl(IWeightSlipDao iWeightSlipDao,
+                                 WeightMapper mapper,
+                                 WeightSlipCriteriaRepository weightSlipCriteriaRepository) {
         this.iWeightSlipDao = iWeightSlipDao;
         this.mapper = mapper;
+        this.weightSlipCriteriaRepository = weightSlipCriteriaRepository;
         executor = ThreadPool.builder()
                 .setCoreSize(5)
                 .setQueueSize(0)
@@ -119,6 +124,28 @@ public class WeightSlipServiceImpl implements WeightSlipService {
         return resultResponse;
     }
 
+    @Override
+    public Page<WeightSlip> getWeightSlipsFilter(Integer limit,
+                                                 Integer page,
+                                                 WeightSlipCriteria weightSlipCriteria) {
+        return weightSlipCriteriaRepository.findAllWithFilters(limit, page, weightSlipCriteria);
+    }
+
+    @Override
+    public List<String> findSoXeDistinct(String databaseKey) {
+        return iWeightSlipDao.findSoXeDistinct(databaseKey);
+    }
+
+    @Override
+    public List<String> findTenHangDistinct(String databaseKey) {
+        return iWeightSlipDao.findTenHangDistinct(databaseKey);
+    }
+
+    @Override
+    public List<String> findKhachHangDistinct(String databaseKey) {
+        return iWeightSlipDao.findKhachHangDistinct(databaseKey);
+    }
+
     private void syncDataWeightSlipNew(String key,
                                        String databaseKey,
                                        List<WeightSlipMapperModel> list) {
@@ -131,7 +158,7 @@ public class WeightSlipServiceImpl implements WeightSlipService {
             int toIndex = Math.min(i*size+size , sizeList);
             List<WeightSlipMapperModel> list1 = list.subList(i*size, toIndex );
 
-            JobCompare jobCompare = new JobCompare(list1, iWeightSlipDao, key, databaseKey);
+            JobCompare jobCompare = new JobCompare(list1, iWeightSlipDao, key, databaseKey, mapper);
             Constants.jobSubmit.add(executor.submit(jobCompare));
             i++;
             if (toIndex == sizeList){

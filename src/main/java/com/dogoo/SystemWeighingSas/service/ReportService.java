@@ -5,7 +5,6 @@ import com.dogoo.SystemWeighingSas.model.ReportCompareModel;
 import com.dogoo.SystemWeighingSas.model.ReportModel;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public interface ReportService {

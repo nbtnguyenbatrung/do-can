@@ -3,6 +3,7 @@ package com.dogoo.SystemWeighingSas.thread;
 import com.dogoo.SystemWeighingSas.config.Constants;
 import com.dogoo.SystemWeighingSas.dao.IWeightSlipDao;
 import com.dogoo.SystemWeighingSas.entity.WeightSlip;
+import com.dogoo.SystemWeighingSas.mapper.WeightMapper;
 import com.dogoo.SystemWeighingSas.model.WeightSlipMapperModel;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,15 +16,17 @@ public class JobCompare implements Callable<List<WeightSlip>> {
     private final IWeightSlipDao iWeightSlipDao;
     private final String key;
     private final String databaseKey;
+    private final WeightMapper mapper;
 
     public JobCompare(List<WeightSlipMapperModel> list,
                       IWeightSlipDao iWeightSlipDao,
                       String key,
-                      String databaseKey) {
+                      String databaseKey, WeightMapper mapper) {
         this.list = list;
         this.iWeightSlipDao = iWeightSlipDao;
         this.key = key;
         this.databaseKey = databaseKey;
+        this.mapper = mapper;
     }
 
     @Override
