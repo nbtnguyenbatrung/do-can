@@ -1,9 +1,10 @@
 package com.dogoo.SystemWeighingSas.service.impl;
 
 import com.dogoo.SystemWeighingSas.dao.IWeightSlipDao;
-import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import com.dogoo.SystemWeighingSas.mapper.ChartMapper;
-import com.dogoo.SystemWeighingSas.model.*;
+import com.dogoo.SystemWeighingSas.model.ChartMapperModel;
+import com.dogoo.SystemWeighingSas.model.ReportCompareModel;
+import com.dogoo.SystemWeighingSas.model.ReportModel;
 import com.dogoo.SystemWeighingSas.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
