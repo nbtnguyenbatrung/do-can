@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,8 +20,8 @@ public class ChartMapperModel {
 
     private List<DataMapperModel> list;
 
-    private List<String> nameXAxis;
-    private List<Long> currentPeriod ;
-    private List<Long> samePeriod ;
+    private List<String> nameXAxis = new ArrayList<>();
+    private List<Long> currentPeriod = new ArrayList<>();
+    private List<Long> samePeriod = new ArrayList<>();
     private long jump;
 }
