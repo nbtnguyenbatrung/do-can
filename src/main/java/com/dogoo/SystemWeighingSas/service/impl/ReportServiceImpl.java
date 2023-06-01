@@ -125,11 +125,11 @@ public class ReportServiceImpl implements ReportService {
                         startDateCompare, endDateCompare, model, jump);
                 break;
             case "netWeight":
-                getChartNetWeight(weighingStationCode, startDate, endDate,
+                getChartNetWeight(weighingStationCode, list,
                         startDateCompare, endDateCompare, model, jump);
                 break;
             case "revenue":
-                getChartRevenue(weighingStationCode, startDate, endDate,
+                getChartRevenue(weighingStationCode, list,
                         startDateCompare, endDateCompare, model, jump);
                 break;
             default:
@@ -157,8 +157,6 @@ public class ReportServiceImpl implements ReportService {
             ));
         });
 
-        System.out.println( "nameXAxis sixze " + nameXAxis.size());
-        System.out.println( "currentPeriod sixze " + currentPeriod.size());
         model.setNameXAxis(nameXAxis);
         model.setCurrentPeriod(currentPeriod);
 
@@ -200,62 +198,122 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private void getChartNetWeight(String weighingStationCode,
-                                   LocalDateTime startDate,
-                                   LocalDateTime endDate,
+                                   List<LocalDate> listCurrentPeriodDate,
                                    LocalDateTime startDateCompare,
                                    LocalDateTime endDateCompare,
                                    ChartMapperModel model,
                                    long jump) {
 
-        List<Object[]> weightSlipList = iWeightSlipDao
-                .groupNetWeightByNgayCan(Timestamp.valueOf(startDate),
-                        Timestamp.valueOf(endDate), weighingStationCode);
-        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
-        ChartMapperModel to = new ChartMapperModel();
-        to.setName("1");
-        to.setList(chartMapperModelList);
-//        list.add(to);
+        List<String> nameXAxis = new ArrayList<>();
+        List<Long> currentPeriod = new ArrayList<>();
+        listCurrentPeriodDate.forEach(localDate -> {
+            nameXAxis.add(localDate.toString());
+            Long weight = iWeightSlipDao.sumWeight(
+                    Timestamp.valueOf(localDate.atStartOfDay()),
+                    Timestamp.valueOf(localDate.plusDays(jump-1).atTime(LocalTime.MAX)),
+                    weighingStationCode
+            );
+            currentPeriod.add( weight != null ? weight : 0 );
+        });
+
+        model.setNameXAxis(nameXAxis);
+        model.setCurrentPeriod(currentPeriod);
 
         if (startDateCompare != null && endDateCompare != null) {
-            List<Object[]> weightSlipList2 = iWeightSlipDao
-                    .groupNetWeightByNgayCan(Timestamp.valueOf(startDateCompare),
-                            Timestamp.valueOf(endDateCompare), weighingStationCode);
-            List<DataMapperModel> chartMapperModelList2 = mapper
-                    .mapDataFromWeightSlip(weightSlipList2);
-            ChartMapperModel to2 = new ChartMapperModel();
-            to2.setName("2");
-            to2.setList(chartMapperModelList2);
-//            list.add(to2);
+
+            List<LocalDate> list = startDateCompare.toLocalDate()
+                    .datesUntil(endDateCompare.toLocalDate().plusDays(1))
+                    .filter(localDate ->
+                            Period.between(startDateCompare.toLocalDate(), localDate).getDays() % jump == 0
+                    )
+                    .collect(Collectors.toList());
+            long sizeListCurrentPeriodDate = listCurrentPeriodDate.size();
+            long size = list.size();
+
+            if (size != sizeListCurrentPeriodDate){
+                int index = list.size() - 1;
+                list.remove(index);
+            }
+
+            List<Long> samePeriod = new ArrayList<>();
+            list.forEach(localDate -> {
+                Long weight;
+                if (samePeriod.size() == sizeListCurrentPeriodDate - 1){
+                    weight = iWeightSlipDao.sumWeight(
+                            Timestamp.valueOf(localDate.atStartOfDay()),
+                            Timestamp.valueOf(endDateCompare.with(LocalTime.MAX)),
+                            weighingStationCode
+                    );
+                }else {
+                    weight = iWeightSlipDao.sumWeight(
+                            Timestamp.valueOf(localDate.atStartOfDay()),
+                            Timestamp.valueOf(localDate.plusDays(jump - 1).atTime(LocalTime.MAX)),
+                            weighingStationCode
+                    );
+                }
+                samePeriod.add(weight != null ? weight : 0);
+            });
+            model.setSamePeriod(samePeriod);
         }
     }
 
     private void getChartRevenue(String weighingStationCode,
-                                 LocalDateTime startDate,
-                                 LocalDateTime endDate,
+                                 List<LocalDate> listCurrentPeriodDate,
                                  LocalDateTime startDateCompare,
                                  LocalDateTime endDateCompare,
                                  ChartMapperModel model,
                                  long jump) {
 
-        List<Object[]> weightSlipList = iWeightSlipDao
-                .groupRevenueByNgayCan(Timestamp.valueOf(startDate),
-                        Timestamp.valueOf(endDate), weighingStationCode);
-        List<DataMapperModel> chartMapperModelList = mapper.mapDataFromWeightSlip(weightSlipList);
-        ChartMapperModel to = new ChartMapperModel();
-        to.setName("1");
-        to.setList(chartMapperModelList);
-//        list.add(to);
+        List<String> nameXAxis = new ArrayList<>();
+        List<Long> currentPeriod = new ArrayList<>();
+        listCurrentPeriodDate.forEach(localDate -> {
+            nameXAxis.add(localDate.toString());
+            Long weight = iWeightSlipDao.sumRevenue(
+                    Timestamp.valueOf(localDate.atStartOfDay()),
+                    Timestamp.valueOf(localDate.plusDays(jump-1).atTime(LocalTime.MAX)),
+                    weighingStationCode
+            );
+            currentPeriod.add( weight != null ? weight : 0 );
+        });
+
+        model.setNameXAxis(nameXAxis);
+        model.setCurrentPeriod(currentPeriod);
 
         if (startDateCompare != null && endDateCompare != null) {
-            List<Object[]> weightSlipList2 = iWeightSlipDao
-                    .groupRevenueByNgayCan(Timestamp.valueOf(startDateCompare),
-                            Timestamp.valueOf(endDateCompare), weighingStationCode);
-            List<DataMapperModel> chartMapperModelList2 = mapper
-                    .mapDataFromWeightSlip(weightSlipList2);
-            ChartMapperModel to2 = new ChartMapperModel();
-            to2.setName("2");
-            to2.setList(chartMapperModelList2);
-//            list.add(to2);
+
+            List<LocalDate> list = startDateCompare.toLocalDate()
+                    .datesUntil(endDateCompare.toLocalDate().plusDays(1))
+                    .filter(localDate ->
+                            Period.between(startDateCompare.toLocalDate(), localDate).getDays() % jump == 0
+                    )
+                    .collect(Collectors.toList());
+            long sizeListCurrentPeriodDate = listCurrentPeriodDate.size();
+            long size = list.size();
+
+            if (size != sizeListCurrentPeriodDate){
+                int index = list.size() - 1;
+                list.remove(index);
+            }
+
+            List<Long> samePeriod = new ArrayList<>();
+            list.forEach(localDate -> {
+                Long weight;
+                if (samePeriod.size() == sizeListCurrentPeriodDate - 1){
+                    weight = iWeightSlipDao.sumRevenue(
+                            Timestamp.valueOf(localDate.atStartOfDay()),
+                            Timestamp.valueOf(endDateCompare.with(LocalTime.MAX)),
+                            weighingStationCode
+                    );
+                }else {
+                    weight = iWeightSlipDao.sumRevenue(
+                            Timestamp.valueOf(localDate.atStartOfDay()),
+                            Timestamp.valueOf(localDate.plusDays(jump - 1).atTime(LocalTime.MAX)),
+                            weighingStationCode
+                    );
+                }
+                samePeriod.add(weight != null ? weight : 0);
+            });
+            model.setSamePeriod(samePeriod);
         }
 
     }
