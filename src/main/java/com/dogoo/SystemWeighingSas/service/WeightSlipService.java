@@ -31,4 +31,6 @@ public interface WeightSlipService {
     List<String> findSoXeDistinct(String databaseKey);
     List<String> findTenHangDistinct(String databaseKey);
     List<String> findKhachHangDistinct(String databaseKey);
+
+    void deleteWeightSlips(long weightSlipId);
 }

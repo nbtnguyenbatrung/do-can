@@ -1,6 +1,5 @@
 package com.dogoo.SystemWeighingSas.controller;
 
-import com.dogoo.SystemWeighingSas.model.UserTokenModel;
 import com.dogoo.SystemWeighingSas.model.WeightSlipCriteria;
 import com.dogoo.SystemWeighingSas.service.WeightSlipService;
 import com.dogoo.SystemWeighingSas.unitity.response.Response;

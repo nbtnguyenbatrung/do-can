@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
@@ -144,6 +145,16 @@ public class WeightSlipServiceImpl implements WeightSlipService {
     @Override
     public List<String> findKhachHangDistinct(String databaseKey) {
         return iWeightSlipDao.findKhachHangDistinct(databaseKey);
+    }
+
+    @Override
+    public void deleteWeightSlips(long weightSlipId) {
+        Optional<WeightSlip> optionalWeightSlip = iWeightSlipDao.findById(weightSlipId);
+        if (optionalWeightSlip.isPresent()){
+            WeightSlip weightSlip = optionalWeightSlip.get();
+            weightSlip.setAction(Constants.ACTION_DELETE);
+            iWeightSlipDao.save(weightSlip);
+        }
     }
 
     private void syncDataWeightSlipNew(String key,
