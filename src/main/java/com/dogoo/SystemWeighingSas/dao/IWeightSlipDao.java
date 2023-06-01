@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.sql.Timestamp;
 import java.util.List;
 
-public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
+public interface IWeightSlipDao extends JpaRepository<WeightSlip, Long> {
 
     @Query("SELECT COUNT(weight_slip_id) FROM DG_WeightSlip ")
     Integer getCountWeightSlip();
@@ -46,10 +46,11 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
     @Query("select ws from DG_WeightSlip ws ORDER BY ws.ngayCan DESC, ws.gioKTai DESC ")
     List<WeightSlip> getAllWeightSlipOrder();
 
-    @Query("select ws from DG_WeightSlip ws where ws.action='delete' OR ws.action='update'" )
+    @Query("select ws from DG_WeightSlip ws where ws.action='delete' OR ws.action='update'")
     List<WeightSlip> getAllWeightSlipAction();
 
-    Page<WeightSlip> findAllByDatabaseKey(String databaseKey , Pageable pageable);
+    Page<WeightSlip> findAllByDatabaseKey(String databaseKey, Pageable pageable);
+
     long countByDatabaseKey(String databaseKey);
 
     @Query(value = "SELECT COUNT(t) from DG_WeightSlip t where t.ngayCan BETWEEN :startDate AND :endDate " +
@@ -86,8 +87,8 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
             + " group by p.ngayCan "
             + " ORDER BY p.ngayCan asc")
     List<Object[]> groupBillByNgayCan(@Param("startDate") Timestamp startDate,
-                                                @Param("endDate") Timestamp endDate,
-                                                @Param("databaseKey") String databaseKey);
+                                      @Param("endDate") Timestamp endDate,
+                                      @Param("databaseKey") String databaseKey);
 
     @Query("select p.ngayCan as ngayCan , SUM(p.hang) as value "
             + " from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate" +
@@ -95,8 +96,8 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
             + " group by p.ngayCan "
             + " ORDER BY p.ngayCan asc")
     List<Object[]> groupNetWeightByNgayCan(@Param("startDate") Timestamp startDate,
-                                             @Param("endDate") Timestamp endDate,
-                                             @Param("databaseKey") String databaseKey);
+                                           @Param("endDate") Timestamp endDate,
+                                           @Param("databaseKey") String databaseKey);
 
     @Query("select p.ngayCan as ngayCan , SUM(p.thanhTien) as value "
             + " from DG_WeightSlip p where p.ngayCan BETWEEN :startDate AND :endDate" +
@@ -104,8 +105,8 @@ public interface IWeightSlipDao extends JpaRepository<WeightSlip,Long> {
             + " group by p.ngayCan "
             + " ORDER BY p.ngayCan asc")
     List<Object[]> groupRevenueByNgayCan(@Param("startDate") Timestamp startDate,
-                                           @Param("endDate") Timestamp endDate,
-                                           @Param("databaseKey") String databaseKey);
+                                         @Param("endDate") Timestamp endDate,
+                                         @Param("databaseKey") String databaseKey);
 
     @Query("SELECT DISTINCT soXe FROM DG_WeightSlip WHERE databaseKey = :databaseKey")
     List<String> findSoXeDistinct(@Param("databaseKey") String databaseKey);

@@ -1,10 +1,8 @@
 package com.dogoo.SystemWeighingSas.controller;
 
 
-import com.dogoo.SystemWeighingSas.dao.IAccountDao;
 import com.dogoo.SystemWeighingSas.dao.IWeightSlipDao;
 import com.dogoo.SystemWeighingSas.dao.WeightSlipCriteriaRepository;
-import com.dogoo.SystemWeighingSas.entity.Account;
 import com.dogoo.SystemWeighingSas.entity.WeightSlip;
 import com.dogoo.SystemWeighingSas.model.WeightSlipCriteria;
 import com.dogoo.SystemWeighingSas.service.ExportDataService;

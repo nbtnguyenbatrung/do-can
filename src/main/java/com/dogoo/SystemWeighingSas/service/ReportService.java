@@ -10,16 +10,17 @@ import java.util.List;
 public interface ReportService {
 
     ReportModel getReportNewDate(String weighingStationCode);
+
     ReportCompareModel getReportCompare(String weighingStationCode,
-                                        LocalDateTime startDate ,
+                                        LocalDateTime startDate,
                                         LocalDateTime endDate,
                                         LocalDateTime startDateCompare,
                                         LocalDateTime endDateCompare);
 
-    List<ChartMapperModel> getChart(String weighingStationCode,
-                                    String type ,
-                                    LocalDateTime startDate ,
-                                    LocalDateTime endDate,
-                                    LocalDateTime startDateCompare,
-                                    LocalDateTime endDateCompare);
+    ChartMapperModel getChart(String weighingStationCode,
+                              String type,
+                              LocalDateTime startDate,
+                              LocalDateTime endDate,
+                              LocalDateTime startDateCompare,
+                              LocalDateTime endDateCompare);
 }

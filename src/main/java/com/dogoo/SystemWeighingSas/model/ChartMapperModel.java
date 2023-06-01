@@ -18,4 +18,9 @@ public class ChartMapperModel {
     private String name;
 
     private List<DataMapperModel> list;
+
+    private List<String> nameXAxis;
+    private List<Long> currentPeriod ;
+    private List<Long> samePeriod ;
+    private long jump;
 }
